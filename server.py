@@ -1,13 +1,8 @@
-"""Small read-only MCP server for a Cisco lab."""
-
-from __future__ import annotations
-
 import asyncio
 import os
 import re
 from dataclasses import dataclass
 from pathlib import Path
-
 from dotenv import load_dotenv
 from mcp.server.fastmcp import FastMCP
 from netmiko import ConnectHandler
@@ -23,8 +18,7 @@ mcp = FastMCP(
     name="cisco-cli-lab",
     instructions=(
         "Read-only access to the Cisco lab. List routers first, then run "
-        "single-line Cisco CLI commands beginning with 'show' or ping a safe "
-        "IP address or hostname."
+        "single-line Cisco CLI commands beginning with 'show' or 'ping'"
     ),
     host=os.getenv("MCP_HOST", "127.0.0.1"),
     port=int(os.getenv("MCP_PORT", "8000")),

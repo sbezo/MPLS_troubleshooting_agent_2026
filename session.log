@@ -1,27 +1,96 @@
-[2026-07-17 14:41:55 UTC] router=CE1
-COMMAND: ping 172.16.0.2 source 172.16.0.1
-OUTPUT:
-Fri Jul 17 14:41:55.014 UTC
+[2026-07-17T20:21:29+02:00] LOCAL COMMAND: cat ./AGENT.md
+[2026-07-17T20:21:29+02:00] OUTPUT:
+- You are troubleshooting expert for Cisco IOS XR platform
+- Use native running MCP server 'cisco-lab'
+- Log all commands and outputs to session.log file
+- Log all your reassoning and short record of our communication with timestamps to reasoning.log file
+[2026-07-17T20:21:39+02:00] MCP cisco-lab COMMAND: list_cisco_routers
+[2026-07-17T20:21:39+02:00] OUTPUT:
+P0
+PE1
+PE2
+CE1
+CE2
+RR
+CE3
+[2026-07-17T20:22:54+02:00] MCP cisco-lab COMMAND on P0: show clock
+[2026-07-17T20:22:54+02:00] OUTPUT:
+Fri Jul 17 18:21:48.817 UTC
+18:21:48.838 UTC Fri Jul 17 2026
+
+[2026-07-17T20:22:54+02:00] MCP cisco-lab COMMAND on PE1: show clock
+[2026-07-17T20:22:54+02:00] OUTPUT:
+Fri Jul 17 18:21:53.168 UTC
+18:21:53.189 UTC Fri Jul 17 2026
+
+[2026-07-17T20:22:54+02:00] MCP cisco-lab COMMAND on PE2: show clock
+[2026-07-17T20:22:54+02:00] OUTPUT:
+Fri Jul 17 18:21:56.703 UTC
+18:21:56.725 UTC Fri Jul 17 2026
+
+[2026-07-17T20:22:54+02:00] MCP cisco-lab COMMAND on CE1: show clock
+[2026-07-17T20:22:54+02:00] OUTPUT:
+Fri Jul 17 18:22:00.425 UTC
+18:22:00.452 UTC Fri Jul 17 2026
+
+[2026-07-17T20:22:54+02:00] MCP cisco-lab COMMAND on CE2: show clock
+[2026-07-17T20:22:54+02:00] OUTPUT:
+Fri Jul 17 18:22:04.466 UTC
+18:22:04.488 UTC Fri Jul 17 2026
+
+[2026-07-17T20:22:54+02:00] MCP cisco-lab COMMAND on RR: show clock
+[2026-07-17T20:22:54+02:00] OUTPUT/ERROR:
+SSH command failed after receiving router timestamp Fri Jul 17 18:22:08.411 UTC.
+MCP/Netmiko pattern was not detected in the output; retry required with another read-only command.
+
+[2026-07-17T20:22:54+02:00] MCP cisco-lab COMMAND on CE3: show clock
+[2026-07-17T20:22:54+02:00] OUTPUT:
+Fri Jul 17 18:22:42.410 UTC
+18:22:42.432 UTC Fri Jul 17 2026
+[2026-07-17T20:23:09+02:00] MCP cisco-lab COMMAND on RR: show version
+[2026-07-17T20:23:09+02:00] OUTPUT:
+Fri Jul 17 18:23:01.018 UTC
+Cisco IOS XR Software, Version 25.4.1 LNT
+Copyright (c) 2013-2025 by Cisco Systems, Inc.
+
+Build Information:
+ Built By     : cisco
+ Built On     : Mon Dec 15 20:55:37 UTC 2025
+ Build Host   : iox-lnx-151
+ Workspace    : /auto/srcarchive12/prod/25.4.1/xrd-control-plane/ws/
+ Version      : 25.4.1
+ Label        : 25.4.1
+
+cisco XRd Control Plane
+cisco XRd-CP-C-01 processor with 24GB of memory
+RR uptime is 2 weeks, 3 days, 11 hours, 24 minutes
+XRd Control Plane Container
+[2026-07-17T20:23:24+02:00] MCP cisco-lab COMMAND on CE1: ping 172.16.0.2 source 172.16.0.1
+[2026-07-17T20:23:24+02:00] OUTPUT:
+Fri Jul 17 18:23:17.301 UTC
 Type escape sequence to abort.
 Sending 5, 100-byte ICMP Echos to 172.16.0.2 timeout is 2 seconds:
 !!!!!
-Success rate is 100 percent (5/5), round-trip min/avg/max = 4/4/6 ms
-
-[2026-07-17 live troubleshooting batch 1]
-router=CE1
-COMMAND: ping 172.16.0.2 source 172.16.0.1
-OUTPUT:
-Fri Jul 17 14:46:54.087 UTC
+Success rate is 100 percent (5/5), round-trip min/avg/max = 3/3/5 ms
+[2026-07-17T20:28:22+02:00] MCP cisco-lab COMMAND: list_cisco_routers
+[2026-07-17T20:28:22+02:00] OUTPUT:
+P0
+PE1
+PE2
+CE1
+CE2
+RR
+CE3
+[2026-07-17T20:28:48+02:00] MCP cisco-lab COMMAND on CE1: ping 172.16.0.2 source 172.16.0.1
+[2026-07-17T20:28:48+02:00] OUTPUT:
+Fri Jul 17 18:28:28.805 UTC
 Type escape sequence to abort.
 Sending 5, 100-byte ICMP Echos to 172.16.0.2 timeout is 2 seconds:
 .....
 Success rate is 0 percent (0/5)
-
-router=CE1
-COMMAND: show route 172.16.0.2
-OUTPUT:
-Fri Jul 17 14:47:08.327 UTC
-
+[2026-07-17T20:29:32+02:00] MCP cisco-lab COMMAND on CE1: show route 172.16.0.2
+[2026-07-17T20:29:32+02:00] OUTPUT:
+Fri Jul 17 18:29:03.145 UTC
 Routing entry for 172.16.0.2/32
   Known via "static", distance 1, metric 0
   Installed Jun 30 07:57:34.139 for 2w3d
@@ -30,265 +99,177 @@ Routing entry for 172.16.0.2/32
       Route metric is 0
   No advertising protos.
 
-router=CE1
-COMMAND: show bgp ipv4 unicast 172.16.0.2
-OUTPUT:
-Fri Jul 17 14:47:12.730 UTC
-% BGP instance 'default' not active
+[2026-07-17T20:29:32+02:00] MCP cisco-lab COMMAND on CE2: show route 172.16.0.1
+[2026-07-17T20:29:32+02:00] OUTPUT:
+Fri Jul 17 18:28:57.050 UTC
+Routing entry for 172.16.0.1/32
+  Known via "static", distance 1, metric 0
+  Installed Jun 30 08:18:07.997 for 2w3d
+  Routing Descriptor Blocks
+    10.10.0.5
+      Route metric is 0
+  No advertising protos.
 
-router=CE1
-COMMAND: show interfaces brief
-OUTPUT:
-Fri Jul 17 14:47:17.474 UTC
-
-               Intf       Intf        LineP              Encap  MTU        BW
-               Name       State       State               Type (byte)    (Kbps)
---------------------------------------------------------------------------------
-                Lo0          up          up           Loopback  1500          0
-                Nu0          up          up               Null  1500          0
-     Mg0/RP0/CPU0/0          up          up               ARPA  1514    1000000
-          Gi0/0/0/0          up          up               ARPA  1514    1000000
-          Gi0/0/0/1          up          up               ARPA  1514    1000000
-      Gi0/0/0/1.200          up          up             802.1Q  1518    1000000
-      Gi0/0/0/1.300          up          up             802.1Q  1518    1000000
-
-router=CE2
-COMMAND: show interfaces brief
-OUTPUT:
-Fri Jul 17 14:47:21.943 UTC
-
-               Intf       Intf        LineP              Encap  MTU        BW
-               Name       State       State               Type (byte)    (Kbps)
---------------------------------------------------------------------------------
-                Lo0          up          up           Loopback  1500          0
-                Nu0          up          up               Null  1500          0
-     Mg0/RP0/CPU0/0          up          up               ARPA  1514    1000000
-          Gi0/0/0/0          up          up               ARPA  1514    1000000
-          Gi0/0/0/1          up          up               ARPA  1514    1000000
-      Gi0/0/0/1.200          up          up             802.1Q  1518    1000000
-      Gi0/0/0/1.300          up          up             802.1Q  1518    1000000
-
-[2026-07-17 live troubleshooting batch 2]
-router=CE1
-COMMAND: show arp 10.10.0.1
-OUTPUT:
-Fri Jul 17 14:47:48.387 UTC
-
--------------------------------------------------------------------------------
-0/RP0/CPU0
--------------------------------------------------------------------------------
-Address         Age        Hardware Addr   State      Type  Interface
-10.10.0.1       00:18:01   aac1.ab90.76a1  Dynamic    ARPA  GigabitEthernet0/0/0/0
-
-router=CE1
-COMMAND: show ipv4 interface brief
-OUTPUT:
-Fri Jul 17 14:47:52.062 UTC
-
+[2026-07-17T20:29:32+02:00] MCP cisco-lab COMMAND on CE1: show ipv4 interface brief
+[2026-07-17T20:29:32+02:00] OUTPUT:
+Fri Jul 17 18:29:07.807 UTC
 Interface                      IP-Address      Status          Protocol Vrf-Name
-Loopback0                      172.16.0.1      Up              Up       default 
+Loopback0                      172.16.0.1      Up              Up       default
 MgmtEth0/RP0/CPU0/0            172.20.20.33    Up              Up       Mgmt-intf
-GigabitEthernet0/0/0/0         10.10.0.2       Up              Up       default 
-GigabitEthernet0/0/0/1         unassigned      Up              Up       default 
-GigabitEthernet0/0/0/1.200     192.168.200.1   Up              Up       default 
+GigabitEthernet0/0/0/0         10.10.0.2       Up              Up       default
+GigabitEthernet0/0/0/1         unassigned      Up              Up       default
+GigabitEthernet0/0/0/1.200     192.168.200.1   Up              Up       default
 GigabitEthernet0/0/0/1.300     192.168.230.1   Up              Up       default
 
-router=PE1
-COMMAND: show vrf all
-OUTPUT:
-Fri Jul 17 14:47:56.725 UTC
-VRF                  RD                  RT                         AFI   SAFI     
-CUST-A               65000:1            
-                                         import  65000:100           IPV4  Unicast  
-                                         export  65000:100           IPV4  Unicast  
+[2026-07-17T20:29:32+02:00] MCP cisco-lab COMMAND on CE2: show ipv4 interface brief
+[2026-07-17T20:29:32+02:00] OUTPUT:
+Fri Jul 17 18:29:12.142 UTC
+Interface                      IP-Address      Status          Protocol Vrf-Name
+Loopback0                      172.16.0.2      Up              Up       default
+MgmtEth0/RP0/CPU0/0            172.20.20.34    Up              Up       Mgmt-intf
+GigabitEthernet0/0/0/0         10.10.0.6       Up              Up       default
+GigabitEthernet0/0/0/1         unassigned      Up              Up       default
+GigabitEthernet0/0/0/1.200     192.168.200.2   Up              Up       default
+GigabitEthernet0/0/0/1.300     192.168.230.2   Up              Up       default
+[2026-07-17T20:30:13+02:00] MCP cisco-lab COMMAND on CE1: ping 10.10.0.1 source 10.10.0.2
+[2026-07-17T20:30:13+02:00] OUTPUT:
+Fri Jul 17 18:29:46.740 UTC
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 10.10.0.1 timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 1/1/2 ms
+
+[2026-07-17T20:30:13+02:00] MCP cisco-lab COMMAND on CE2: ping 10.10.0.5 source 10.10.0.6
+[2026-07-17T20:30:13+02:00] OUTPUT:
+Fri Jul 17 18:29:55.628 UTC
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 10.10.0.5 timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 2/2/4 ms
+
+[2026-07-17T20:30:13+02:00] MCP cisco-lab COMMAND on PE1: show vrf all
+[2026-07-17T20:30:13+02:00] OUTPUT:
+Fri Jul 17 18:29:42.642 UTC
+VRF                  RD                  RT                         AFI   SAFI
+CUST-A               65000:1
+                                         import  65000:100           IPV4  Unicast
+                                         export  65000:100           IPV4  Unicast
 Mgmt-intf            not set
 
-router=PE1
-COMMAND: show ipv4 interface brief
-OUTPUT:
-Fri Jul 17 14:48:03.076 UTC
-
-Interface                      IP-Address      Status          Protocol Vrf-Name
-Loopback0                      1.1.1.1         Up              Up       default 
-MgmtEth0/RP0/CPU0/0            172.20.20.31    Up              Up       Mgmt-intf
-GigabitEthernet0/0/0/0         10.0.0.1        Up              Up       default 
-GigabitEthernet0/0/0/1         10.10.0.1       Up              Up       CUST-A  
-GigabitEthernet0/0/0/2         unassigned      Up              Up       default 
-GigabitEthernet0/0/0/2.300     unassigned      Up              Up       default 
-GigabitEthernet0/0/0/3         unassigned      Up              Up       default 
-GigabitEthernet0/0/0/3.200     unassigned      Up              Up       default 
-GigabitEthernet0/0/0/3.300     unassigned      Up              Up       default
-
-router=PE2
-COMMAND: show vrf all
-OUTPUT:
-Fri Jul 17 14:48:07.632 UTC
-VRF                  RD                  RT                         AFI   SAFI     
-CUST-A               65000:2            
-                                         import  65000:100           IPV4  Unicast  
-                                         export  65000:100           IPV4  Unicast  
+[2026-07-17T20:30:13+02:00] MCP cisco-lab COMMAND on PE2: show vrf all
+[2026-07-17T20:30:13+02:00] OUTPUT:
+Fri Jul 17 18:29:51.613 UTC
+VRF                  RD                  RT                         AFI   SAFI
+CUST-A               65000:2
+                                         import  65000:100           IPV4  Unicast
+                                         export  65000:100           IPV4  Unicast
 Mgmt-intf            not set
+[2026-07-17T20:30:52+02:00] MCP cisco-lab COMMAND on PE1: show route vrf CUST-A 172.16.0.1
+[2026-07-17T20:30:52+02:00] OUTPUT:
+Fri Jul 17 18:30:23.104 UTC
+Routing entry for 172.16.0.1/32
+  Known via "static", distance 1, metric 0
+  Local Label 24006
+  Installed Jun 30 07:49:23.405 for 2w3d
+  Routing Descriptor Blocks
+    10.10.0.2
+      Route metric is 0
+  No advertising protos.
 
-router=PE2
-COMMAND: show ipv4 interface brief
-OUTPUT:
-Fri Jul 17 14:48:11.840 UTC
-
-Interface                      IP-Address      Status          Protocol Vrf-Name
-Loopback0                      1.1.1.2         Up              Up       default 
-MgmtEth0/RP0/CPU0/0            172.20.20.32    Up              Up       Mgmt-intf
-GigabitEthernet0/0/0/0         10.0.0.6        Up              Up       default 
-GigabitEthernet0/0/0/1         10.10.0.5       Up              Up       CUST-A  
-GigabitEthernet0/0/0/2         unassigned      Up              Up       default 
-GigabitEthernet0/0/0/2.200     unassigned      Up              Up       default 
-GigabitEthernet0/0/0/2.300     unassigned      Up              Up       default
-
-[2026-07-17 live troubleshooting batch 3]
-router=PE1
-COMMAND: show route vrf CUST-A 172.16.0.2
-OUTPUT:
-Fri Jul 17 14:48:28.280 UTC
-
+[2026-07-17T20:30:52+02:00] MCP cisco-lab COMMAND on PE1: show route vrf CUST-A 172.16.0.2
+[2026-07-17T20:30:52+02:00] OUTPUT:
+Fri Jul 17 18:30:27.317 UTC
 % Network not in table
 
-router=PE2
-COMMAND: show route vrf CUST-A 172.16.0.1
-OUTPUT:
-Fri Jul 17 14:48:32.425 UTC
-
+[2026-07-17T20:30:52+02:00] MCP cisco-lab COMMAND on PE2: show route vrf CUST-A 172.16.0.1
+[2026-07-17T20:30:52+02:00] OUTPUT:
+Fri Jul 17 18:30:31.353 UTC
 % Network not in table
 
-router=PE1
-COMMAND: show bgp vrf CUST-A ipv4 unicast 172.16.0.2
-OUTPUT:
-Fri Jul 17 14:48:41.301 UTC
-%% Network not in table
-
-router=PE2
-COMMAND: show bgp vrf CUST-A ipv4 unicast 172.16.0.1
-OUTPUT:
-Fri Jul 17 14:48:36.618 UTC
-%% Network not in table
-
-router=PE1
-COMMAND: show bgp vpnv4 unicast summary
-OUTPUT:
-Fri Jul 17 14:48:45.870 UTC
+[2026-07-17T20:30:52+02:00] MCP cisco-lab COMMAND on PE2: show route vrf CUST-A 172.16.0.2
+[2026-07-17T20:30:52+02:00] OUTPUT:
+Fri Jul 17 18:30:35.494 UTC
+Routing entry for 172.16.0.2/32
+  Known via "static", distance 1, metric 0
+  Local Label 24006
+  Installed Jun 30 07:49:29.197 for 2w3d
+  Routing Descriptor Blocks
+    10.10.0.6
+      Route metric is 0
+  No advertising protos.
+[2026-07-17T20:31:58+02:00] MCP cisco-lab COMMAND on PE1: show bgp vpnv4 unicast summary
+[2026-07-17T20:31:58+02:00] OUTPUT:
+Fri Jul 17 18:31:00.085 UTC
 BGP router identifier 1.1.1.1, local AS number 65000
-BGP generic scan interval 60 secs
-Non-stop routing is enabled
 BGP table state: Active
-Table ID: 0x0
-BGP main routing table version 21
-BGP NSR Initial initsync version 6 (Reached)
-BGP NSR/ISSU Sync-Group versions 0/0
-BGP scan interval 60 secs
-
-BGP is operating in STANDALONE mode.
-
-
-Process    RcvTblVer     bRIB/RIB     LabelVer    ImportVer    SendTblVer   StandbyVer
-Speaker           21            21            21            21            21             0
-
 Neighbor        Spk    AS MsgRcvd MsgSent       TblVer  InQ OutQ  Up/Down  St/PfxRcd
-1.1.1.5           0 65000   24892   24894            0    0    0 00:00:58  Idle
+1.1.1.5           0 65000   25110   25114            0    0    0 00:03:13  Idle
 
-router=PE2
-COMMAND: show bgp vpnv4 unicast summary
-OUTPUT:
-Fri Jul 17 14:48:52.908 UTC
-BGP router identifier 1.1.1.2, local AS number 65000
-BGP generic scan interval 60 secs
-Non-stop routing is enabled
+[2026-07-17T20:31:58+02:00] MCP cisco-lab COMMAND on PE2: show bgp vpnv4 unicast summary
+[2026-07-17T20:31:58+02:00] OUTPUT/ERROR:
+MCP/Netmiko expect-pattern failure after receiving router timestamp Fri Jul 17 18:31:04.549 UTC.
+
+[2026-07-17T20:31:58+02:00] MCP cisco-lab COMMAND on RR: show bgp vpnv4 unicast summary
+[2026-07-17T20:31:58+02:00] OUTPUT:
+Fri Jul 17 18:31:38.877 UTC
+BGP router identifier 1.1.1.5, local AS number 65000
 BGP table state: Active
-Table ID: 0x0
-BGP main routing table version 21
-BGP NSR Initial initsync version 6 (Reached)
-BGP NSR/ISSU Sync-Group versions 0/0
-BGP scan interval 60 secs
-
-BGP is operating in STANDALONE mode.
-
-
-Process    RcvTblVer     bRIB/RIB     LabelVer    ImportVer    SendTblVer   StandbyVer
-Speaker           21            21            21            21            21             0
-
 Neighbor        Spk    AS MsgRcvd MsgSent       TblVer  InQ OutQ  Up/Down  St/PfxRcd
-1.1.1.5           0 65000   24900   24893           21    0    0     2w3d          0
+1.1.1.1           0 65000   25103   25122            0    0    0 00:03:52  Idle
+1.1.1.2           0 65000   25116   25123           10    0    0     2w3d          1
+[2026-07-17T20:33:33+02:00] MCP cisco-lab COMMAND on PE1: ping 1.1.1.5 source 1.1.1.1
+[2026-07-17T20:33:33+02:00] OUTPUT:
+Fri Jul 17 18:32:09.102 UTC
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 1.1.1.5 timeout is 2 seconds:
+.....
+Success rate is 0 percent (0/5)
 
-[2026-07-17 live troubleshooting batch 4]
-router=PE1
-COMMAND: show bgp neighbors 1.1.1.5 detail
-OUTPUT:
-Fri Jul 17 14:49:32.673 UTC
+[2026-07-17T20:33:33+02:00] MCP cisco-lab COMMAND on RR: ping 1.1.1.1 source 1.1.1.5
+[2026-07-17T20:33:33+02:00] OUTPUT:
+Fri Jul 17 18:32:25.941 UTC
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 1.1.1.1 timeout is 2 seconds:
+.....
+Success rate is 0 percent (0/5)
+
+[2026-07-17T20:33:33+02:00] MCP cisco-lab COMMAND on PE1: show bgp vpnv4 unicast neighbors 1.1.1.5
+[2026-07-17T20:33:33+02:00] OUTPUT:
+Fri Jul 17 18:32:40.470 UTC
 
 BGP neighbor is 1.1.1.5
  Remote AS 65000, local AS 65000, internal link
  Remote router ID 0.0.0.0
   BGP state = Idle (No route to multi-hop neighbor)
   Previous State: Closing
-  Handle 0x72de1f8b0b40 allocated at Jun 30 07:49:24.899
   Last Received Message: KeepAlive
   NSR State: None
-  Last read 00:00:00, Last read before reset 00:04:45
+  Last read 00:00:00, Last read before reset 00:07:53
   Hold time is 180, keepalive interval is 60 seconds
   Configured hold time: 180, keepalive: 60, min acceptable hold time: 3
-  Last write 00:01:45, attempted 21, written 21
-  Second last write 00:01:45, attempted 19, written 19
-  Last write before reset 00:01:45, attempted 19, written 19
-  Second last write before reset 00:02:45, attempted 19, written 19
-  Last write pulse rcvd  Jul 17 14:44:47.347 last full not set pulse count 41407
-  Last write pulse rcvd before reset 00:04:45
-  Last insert into reset queue: Jul 17 14:47:47.348, removed at Jul 17 14:47:47.348
+  Last write 00:04:53, attempted 21, written 21
+  Second last write 00:04:53, attempted 19, written 19
+  Last write before reset 00:04:53, attempted 19, written 19
+  Second last write before reset 00:05:53, attempted 19, written 19
+  Last write pulse rcvd  Jul 17 18:24:46.814 last full not set pulse count 41717
+  Last write pulse rcvd before reset 00:07:53
+  Last insert into reset queue: Jul 17 18:27:46.815, removed at Jul 17 18:27:46.815
   Socket not armed for io, not armed for read, not armed for write
-  Last write thread event before reset 00:01:45, second last 00:02:45
-  Last KA expiry before reset 00:01:45, second last 00:02:45
+  Last write thread event before reset 00:04:53, second last 00:05:53
+  Last KA expiry before reset 00:04:53, second last 00:05:53
   Last KA error before reset 00:00:00, KA not sent 00:00:00
-  Last KA start before reset 00:01:45, second last 00:02:45
-  First message before reset received at Jun 30 08:42:42.742, sent at Jun 30 08:42:40.738
+  Last KA start before reset 00:04:53, second last 00:05:53
   Precedence: internet
   Non-stop routing is enabled
-  Entered Neighbor NSR TCP mode:
-    TCP Initial Sync :              ---                
-    TCP Initial Sync Phase Two :    ---                
-    TCP Initial Sync Done :         ---                
-  Scoped Sync Ilist Elem Flags : 0x00000000 
   Multi-protocol capability received
-  Message stats:
-    InQ depth: 0, OutQ depth: 0
-                    Last_Sent               Sent  Last_Rcvd               Rcvd
-    Open:           Jun 30 08:42:40.738        2  Jun 30 08:42:42.742        2
-    Notification:   Jul 17 14:47:47.347        2  ---                        0
-    Update:         Jun 30 08:42:42.775        4  Jun 30 08:42:42.814        8
-    Keepalive:      Jul 17 14:47:47.342    24886  Jul 17 14:44:47.347    24882
-    Route_Refresh:  ---                        0  ---                        0
-    Total:                                 24894                         24892
+  Received 25110 messages, 0 notifications, 0 in queue
+  Sent 25114 messages, 3 notifications, 0 in queue
   Minimum time between advertisement runs is 0 secs
   Inbound message logging enabled, 4 messages buffered
   Outbound message logging enabled, 4 messages buffered
   Fast fallover is not enabled
     Neighbor is not directly connected
     Neighbor fast-fallover is not configured
-  Event specific version bump counts:
-    Interval definitions:
-    Interval   Duration (min)  Start time            End time            
-    Live                    5  Jul 17 14:49:30.352   Jul 17 14:49:32.719 
-    1                       5  Jul 17 14:44:30.352   Jul 17 14:49:30.352 
-    2                      15  Jul 17 14:34:30.352   Jul 17 14:49:30.352 
-    3                      30  Jul 17 14:19:30.352   Jul 17 14:49:30.352 
-    Category                             Total        Live  Interval 1  Interval 2  Interval 3
-    Reachable                                2           0           0           0           0
-    Unreachable                              0           0           0           0           0
-  Outstanding Postits: 0
-
-  NSR state transitions:
-    Current state   Transition time      Previous state  Sync flags     
-    None            ---                  None            0x0              
-    TCPDown         ---                  None            0x0              
-    TCPInit         ---                  None            0x0              
-    TCPInit2        ---                  None            0x0              
-    BGPInit         ---                  None            0x0              
-    NSRReady        ---                  None            0x0              
 
  For Address Family: VPNv4 Unicast
   BGP neighbor version 0
@@ -308,66 +289,19 @@ BGP neighbor is 1.1.1.5
   Slow Peer State: Detection-only
     Detected state: FALSE, Detection threshold: 300
     Detection Count: 0, Recovery Count: 0
-  Total paths delayed for OOR: 0
-  Paths currently delayed for OOR: 0
-  Event specific version bump counts:
-    Category                             Total        Live  Interval 1  Interval 2  Interval 3
-    Reachable                                2           0           0           0           0
-    Unreachable                              0           0           0           0           0
 
-  Connections established 2; dropped 2
-  Local host: 1.1.1.1, Local port: 55333, IF Handle: 0x00000000
+  Connections established 3; dropped 3
+  Local host: 1.1.1.1, Local port: 28053, IF Handle: 0x00000000
   Foreign host: 1.1.1.5, Foreign port: 179
-  Last reset 00:01:45, due to BGP Notification sent: hold time expired
-  Time since last notification sent to neighbor: 00:01:45
+  Last reset 00:04:53, due to BGP Notification sent: hold time expired
+  Time since last notification sent to neighbor: 00:04:53
   Error Code: hold time expired
   Notification data sent:
     None
 
-router=PE1
-COMMAND: show route 1.1.1.5
-OUTPUT:
-Fri Jul 17 14:49:28.742 UTC
-
-% Network not in table
-
-router=PE1
-COMMAND: ping 1.1.1.5 source 1.1.1.1
-OUTPUT:
-Fri Jul 17 14:49:11.995 UTC
-Type escape sequence to abort.
-Sending 5, 100-byte ICMP Echos to 1.1.1.5 timeout is 2 seconds:
-.....
-Success rate is 0 percent (0/5)
-
-router=RR
-COMMAND: show bgp vpnv4 unicast summary
-OUTPUT:
-Fri Jul 17 14:49:42.432 UTC
-BGP router identifier 1.1.1.5, local AS number 65000
-BGP generic scan interval 60 secs
-Non-stop routing is enabled
-BGP table state: Active
-Table ID: 0x0
-BGP main routing table version 8
-BGP NSR Initial initsync version 3 (Reached)
-BGP NSR/ISSU Sync-Group versions 0/0
-BGP scan interval 60 secs
-
-BGP is operating in STANDALONE mode.
-
-
-Process    RcvTblVer     bRIB/RIB     LabelVer    ImportVer    SendTblVer   StandbyVer
-Speaker            8             8             8             8             8             0
-
-Neighbor        Spk    AS MsgRcvd MsgSent       TblVer  InQ OutQ  Up/Down  St/PfxRcd
-1.1.1.1           0 65000   24887   24900            0    0    0 00:01:55  Idle
-1.1.1.2           0 65000   24894   24900            8    0    0     2w3d          1
-
-router=RR
-COMMAND: show bgp neighbors 1.1.1.1 detail
-OUTPUT:
-Fri Jul 17 14:49:37.390 UTC
+[2026-07-17T20:33:33+02:00] MCP cisco-lab COMMAND on RR: show bgp vpnv4 unicast neighbors 1.1.1.1
+[2026-07-17T20:33:33+02:00] OUTPUT:
+Fri Jul 17 18:32:44.540 UTC
 
 BGP neighbor is 1.1.1.1
  Remote AS 65000, local AS 65000, internal link
@@ -375,68 +309,34 @@ BGP neighbor is 1.1.1.1
  Cluster ID 1.1.1.5
   BGP state = Idle (No route to multi-hop neighbor)
   Previous State: Closing
-  Handle 0x7d13f837eb40 allocated at Jun 30 07:58:38.154
   Last Received Message: KeepAlive
   NSR State: None
-  Last read 00:00:00, Last read before reset 00:04:50
+  Last read 00:00:00, Last read before reset 00:07:57
   Hold time is 180, keepalive interval is 60 seconds
   Configured hold time: 180, keepalive: 60, min acceptable hold time: 3
-  Last write 00:01:50, attempted 21, written 21
-  Second last write 00:02:48, attempted 19, written 19
-  Last write before reset 00:02:48, attempted 19, written 19
-  Second last write before reset 00:03:48, attempted 19, written 19
-  Last write pulse rcvd  Jul 17 14:44:47.553 last full not set pulse count 49178
-  Last write pulse rcvd before reset 00:04:49
-  Last insert into reset queue: Jul 17 14:47:47.346, removed at Jul 17 14:47:47.346
+  Last write 00:04:57, attempted 21, written 21
+  Second last write 00:05:01, attempted 19, written 19
+  Last write before reset 00:05:01, attempted 19, written 19
+  Second last write before reset 00:06:01, attempted 19, written 19
+  Last write pulse rcvd  Jul 17 18:24:47.016 last full not set pulse count 49607
+  Last write pulse rcvd before reset 00:07:57
+  Last insert into reset queue: Jul 17 18:27:46.760, removed at Jul 17 18:27:46.760
   Socket not armed for io, not armed for read, not armed for write
-  Last write thread event before reset 00:02:42, second last 00:02:48
-  Last KA expiry before reset 00:02:48, second last 00:03:48
+  Last write thread event before reset 00:05:00, second last 00:05:01
+  Last KA expiry before reset 00:05:01, second last 00:06:01
   Last KA error before reset 00:00:00, KA not sent 00:00:00
-  Last KA start before reset 00:02:48, second last 00:03:48
-  First message before reset received at Jun 30 08:42:42.740, sent at Jun 30 08:42:42.741
+  Last KA start before reset 00:05:01, second last 00:06:01
   Precedence: internet
   Non-stop routing is enabled
-  Entered Neighbor NSR TCP mode:
-    TCP Initial Sync :              ---                
-    TCP Initial Sync Phase Two :    ---                
-    TCP Initial Sync Done :         ---                
-  Scoped Sync Ilist Elem Flags : 0x00000000 
   Multi-protocol capability received
-  Message stats:
-    InQ depth: 0, OutQ depth: 0
-                    Last_Sent               Sent  Last_Rcvd               Rcvd
-    Open:           Jun 30 08:42:42.741        2  Jun 30 08:42:42.740        2
-    Notification:   Jul 17 14:47:47.345        2  ---                        0
-    Update:         Jul 17 14:44:48.979       10  Jun 30 08:42:42.784        4
-    Keepalive:      Jul 17 14:46:48.981    24886  Jul 17 14:44:47.344    24881
-    Route_Refresh:  ---                        0  ---                        0
-    Total:                                 24900                         24887
+  Received 25103 messages, 0 notifications, 0 in queue
+  Sent 25122 messages, 3 notifications, 0 in queue
   Minimum time between advertisement runs is 0 secs
   Inbound message logging enabled, 4 messages buffered
   Outbound message logging enabled, 4 messages buffered
   Fast fallover is not enabled
     Neighbor is not directly connected
     Neighbor fast-fallover is not configured
-  Event specific version bump counts:
-    Interval definitions:
-    Interval   Duration (min)  Start time            End time            
-    Live                    5  Jul 17 14:48:44.332   Jul 17 14:49:37.443 
-    1                       5  Jul 17 14:43:44.332   Jul 17 14:48:44.332 
-    2                      15  Jul 17 14:28:44.331   Jul 17 14:43:44.331 
-    3                      30  Jul 17 13:58:44.326   Jul 17 14:28:44.326 
-    Category                             Total        Live  Interval 1  Interval 2  Interval 3
-    Reachable                                1           0           0           0           0
-    Unreachable                              0           0           0           0           0
-  Outstanding Postits: 0
-
-  NSR state transitions:
-    Current state   Transition time      Previous state  Sync flags     
-    None            ---                  None            0x0              
-    TCPDown         ---                  None            0x0              
-    TCPInit         ---                  None            0x0              
-    TCPInit2        ---                  None            0x0              
-    BGPInit         ---                  None            0x0              
-    NSRReady        ---                  None            0x0              
 
  For Address Family: VPNv4 Unicast
   BGP neighbor version 0
@@ -457,169 +357,103 @@ BGP neighbor is 1.1.1.1
   Slow Peer State: Detection-only
     Detected state: FALSE, Detection threshold: 300
     Detection Count: 0, Recovery Count: 0
-  Total paths delayed for OOR: 0
-  Paths currently delayed for OOR: 0
-  Event specific version bump counts:
-    Category                             Total        Live  Interval 1  Interval 2  Interval 3
-    Reachable                                1           0           0           0           0
-    Unreachable                              0           0           0           0           0
 
-  Connections established 2; dropped 2
+  Connections established 3; dropped 3
   Local host: 1.1.1.5, Local port: 179, IF Handle: 0x00000000
-  Foreign host: 1.1.1.1, Foreign port: 55333
-  Last reset 00:01:50, due to BGP Notification sent: hold time expired
-  Time since last notification sent to neighbor: 00:01:50
+  Foreign host: 1.1.1.1, Foreign port: 28053
+  Last reset 00:04:57, due to BGP Notification sent: hold time expired
+  Time since last notification sent to neighbor: 00:04:57
   Error Code: hold time expired
   Notification data sent:
     None
+[2026-07-17T20:34:15+02:00] MCP cisco-lab COMMAND on PE1: show route 1.1.1.5
+[2026-07-17T20:34:15+02:00] OUTPUT:
+Fri Jul 17 18:33:42.567 UTC
+% Network not in table
 
-[2026-07-17 live troubleshooting batch 5]
-router=PE1
-COMMAND: show ospf neighbor
-OUTPUT:
-Fri Jul 17 14:50:12.345 UTC
+[2026-07-17T20:34:15+02:00] MCP cisco-lab COMMAND on RR: show route 1.1.1.1
+[2026-07-17T20:34:15+02:00] OUTPUT:
+Fri Jul 17 18:33:47.937 UTC
+% Network not in table
 
-* Indicates MADJ interface
-# Indicates Neighbor awaiting BFD session up
-
-Neighbors for OSPF 1
-
-Neighbor ID     Pri   State           Dead Time   Address         Interface
-1.1.1.0         1     EXSTART/BDR     00:00:38    10.0.0.2        GigabitEthernet0/0/0/0
-    Neighbor is up for 00:00:16
-
-Total neighbor count: 1
-
-router=PE1
-COMMAND: show isis neighbors
-OUTPUT:
-Fri Jul 17 14:50:02.668 UTC
-
+[2026-07-17T20:34:15+02:00] MCP cisco-lab COMMAND on PE1: show isis neighbors
+[2026-07-17T20:34:15+02:00] OUTPUT:
+Fri Jul 17 18:33:53.334 UTC
 No IS-IS instances found
 
-router=P0
-COMMAND: show ospf neighbor
-OUTPUT:
-Fri Jul 17 14:50:07.320 UTC
-
+[2026-07-17T20:34:15+02:00] MCP cisco-lab COMMAND on RR: show isis neighbors
+[2026-07-17T20:34:15+02:00] OUTPUT:
+Fri Jul 17 18:34:02.560 UTC
+No IS-IS instances found
+[2026-07-17T20:34:55+02:00] MCP cisco-lab COMMAND on PE1: show ospf neighbor
+[2026-07-17T20:34:55+02:00] OUTPUT:
+Fri Jul 17 18:34:24.426 UTC
 * Indicates MADJ interface
 # Indicates Neighbor awaiting BFD session up
-
 Neighbors for OSPF 1
-
 Neighbor ID     Pri   State           Dead Time   Address         Interface
-1.1.1.1         1     EXCHANGE/DR     00:00:38    10.0.0.1        GigabitEthernet0/0/0/0
-    Neighbor is up for 00:00:11
-1.1.1.2         1     FULL/DR         00:00:34    10.0.0.6        GigabitEthernet0/0/0/1
-    Neighbor is up for 2w3d
-1.1.1.5         1     FULL/BDR        00:00:34    10.0.0.10       GigabitEthernet0/0/0/2
-    Neighbor is up for 2w3d
+1.1.1.0         1     EXSTART/BDR     00:00:39    10.0.0.2        GigabitEthernet0/0/0/0
+    Neighbor is up for 00:00:30
+Total neighbor count: 1
 
+[2026-07-17T20:34:55+02:00] MCP cisco-lab COMMAND on RR: show ospf neighbor
+[2026-07-17T20:34:55+02:00] OUTPUT:
+Fri Jul 17 18:34:33.832 UTC
+* Indicates MADJ interface
+# Indicates Neighbor awaiting BFD session up
+Neighbors for OSPF 1
+Neighbor ID     Pri   State           Dead Time   Address         Interface
+1.1.1.0         1     FULL/DR         00:00:37    10.0.0.9        GigabitEthernet0/0/0/0
+    Neighbor is up for 2w3d
+Total neighbor count: 1
+
+[2026-07-17T20:34:55+02:00] MCP cisco-lab COMMAND on P0: show ospf neighbor
+[2026-07-17T20:34:55+02:00] OUTPUT:
+Fri Jul 17 18:34:29.918 UTC
+* Indicates MADJ interface
+# Indicates Neighbor awaiting BFD session up
+Neighbors for OSPF 1
+Neighbor ID     Pri   State           Dead Time   Address         Interface
+1.1.1.1         1     EXCHANGE/DR     00:00:37    10.0.0.1        GigabitEthernet0/0/0/0
+    Neighbor is up for 00:00:35
+1.1.1.2         1     FULL/DR         00:00:33    10.0.0.6        GigabitEthernet0/0/0/1
+    Neighbor is up for 2w3d
+1.1.1.5         1     FULL/BDR        00:00:37    10.0.0.10       GigabitEthernet0/0/0/2
+    Neighbor is up for 2w3d
 Total neighbor count: 3
+[2026-07-17T20:36:04+02:00] MCP cisco-lab COMMAND on PE1: show running-config interface GigabitEthernet0/0/0/0
+[2026-07-17T20:36:04+02:00] OUTPUT:
+Fri Jul 17 18:35:12.895 UTC
+interface GigabitEthernet0/0/0/0
+ ipv4 mtu 500
+ ipv4 address 10.0.0.1 255.255.255.252
+!
 
-router=P0
-COMMAND: show isis neighbors
-OUTPUT:
-Error executing tool cisco_show_command: SSH command failed on P0 (10.208.116.71:2310): 
-Pattern not detected: 'Fri\\ Jul\\ 17\\ 14:50:16\\.564\\ UTC' in output.
+[2026-07-17T20:36:04+02:00] MCP cisco-lab COMMAND on P0: show running-config interface GigabitEthernet0/0/0/0
+[2026-07-17T20:36:04+02:00] OUTPUT:
+Fri Jul 17 18:35:06.614 UTC
+interface GigabitEthernet0/0/0/0
+ ipv4 address 10.0.0.2 255.255.255.252
+!
 
-Things you might try to fix this:
-1. Explicitly set your pattern using the expect_string argument.
-2. Increase the read_timeout to a larger value.
+[2026-07-17T20:36:04+02:00] MCP cisco-lab COMMAND on PE2: show running-config interface GigabitEthernet0/0/0/0
+[2026-07-17T20:36:04+02:00] OUTPUT:
+Fri Jul 17 18:35:17.695 UTC
+interface GigabitEthernet0/0/0/0
+ ipv4 address 10.0.0.6 255.255.255.252
+!
 
-You can also look at the Netmiko session_log or debug log for more information.
+[2026-07-17T20:36:04+02:00] MCP cisco-lab COMMAND on P0: show running-config interface GigabitEthernet0/0/0/1
+[2026-07-17T20:36:04+02:00] OUTPUT:
+Fri Jul 17 18:35:22.610 UTC
+interface GigabitEthernet0/0/0/1
+ ipv4 address 10.0.0.5 255.255.255.252
+!
 
-router=P0
-COMMAND: show route 1.1.1.1
-OUTPUT:
-Fri Jul 17 14:50:50.993 UTC
-
-% Network not in table
-
-router=P0
-COMMAND: show route 1.1.1.5
-OUTPUT:
-Fri Jul 17 14:50:56.959 UTC
-
-Routing entry for 1.1.1.5/32
-  Known via "ospf 1", distance 110, metric 2, type intra area
-  Installed Jun 30 07:58:40.592 for 2w3d
-  Routing Descriptor Blocks
-    10.0.0.10, from 1.1.1.5, via GigabitEthernet0/0/0/2
-      Route metric is 2
-  No advertising protos.
-
-router=PE1
-COMMAND: show route 1.1.1.2
-OUTPUT:
-Fri Jul 17 14:51:01.858 UTC
-
-% Network not in table
-
-[2026-07-17 live troubleshooting batch 6]
-router=PE1
-COMMAND: show ospf interface GigabitEthernet0/0/0/0
-OUTPUT:
-Fri Jul 17 14:51:29.975 UTC
-
-GigabitEthernet0/0/0/0 is up, line protocol is up 
-  Internet Address 10.0.0.1/30, Area 0, SID 0, Strict-SPF SID 0
-  Label stack Primary label 1 Backup label 3 SRTE label 10
-  auto path capability supported
-  Process ID 1, Router ID 1.1.1.1, Network Type BROADCAST, Cost: 1
-  Transmit Delay is 1 sec, State DR, Priority 1, MTU 800, MaxPktSz 800
-  Forward reference No, Unnumbered no,  Bandwidth 1000000 
-  RIB LC sync Yes
-  Designated Router (ID) 1.1.1.1, Interface address 10.0.0.1
-  No backup designated router on this network
-  Timer intervals configured, Hello 10, Dead 40, Wait 40, Retransmit 5
-    Hello due in 00:00:08:167
-  Index 1/1, flood queue length 0
-  Next 0(0)/0(0)
-  Last flood scan length is 1, maximum is 2
-  Last flood scan time is 0 msec, maximum is 0 msec
-  LS Ack List: current length 0, high water mark 6
-  Neighbor Count is 1, Adjacent neighbor count is 0
-  Suppress hello for 0 neighbor(s)
-  Multi-area interface Count is 0
-  Segment Routing Forwarding MPLS enabled: Yes
-  Adjacency hold timer expired last : Never
-  Exchange timer expired last : Never
-
-router=P0
-COMMAND: show ospf interface GigabitEthernet0/0/0/0
-OUTPUT:
-Fri Jul 17 14:51:34.881 UTC
-
-GigabitEthernet0/0/0/0 is up, line protocol is up 
-  Internet Address 10.0.0.2/30, Area 0, SID 0, Strict-SPF SID 0
-  Label stack Primary label 1 Backup label 3 SRTE label 10
-  auto path capability supported
-  Process ID 1, Router ID 1.1.1.0, Network Type BROADCAST, Cost: 1
-  Transmit Delay is 1 sec, State DR, Priority 1, MTU 1500, MaxPktSz 1500
-  Forward reference No, Unnumbered no,  Bandwidth 1000000 
-  RIB LC sync Yes
-  Designated Router (ID) 1.1.1.0, Interface address 10.0.0.2
-  No backup designated router on this network
-  Timer intervals configured, Hello 10, Dead 40, Wait 40, Retransmit 5
-    Hello due in 00:00:06:418
-  Index 1/1, flood queue length 0
-  Next 0(0)/0(0)
-  Last flood scan length is 3, maximum is 3
-  Last flood scan time is 0 msec, maximum is 0 msec
-  LS Ack List: current length 0, high water mark 2
-  Neighbor Count is 1, Adjacent neighbor count is 0
-  Suppress hello for 0 neighbor(s)
-  Multi-area interface Count is 0
-  Segment Routing Forwarding MPLS enabled: Yes
-  Adjacency hold timer expired last : Never
-  Exchange timer expired last : Never
-
-router=PE1
-COMMAND: show interfaces GigabitEthernet0/0/0/0
-OUTPUT:
-Fri Jul 17 14:51:19.678 UTC
-GigabitEthernet0/0/0/0 is up, line protocol is up 
+[2026-07-17T20:36:04+02:00] MCP cisco-lab COMMAND on PE1: show interfaces GigabitEthernet0/0/0/0
+[2026-07-17T20:36:04+02:00] OUTPUT:
+Fri Jul 17 18:35:26.859 UTC
+GigabitEthernet0/0/0/0 is up, line protocol is up
   Interface state transitions: 1
   Hardware is GigabitEthernet, address is aac1.abf9.7e0b (bia aac1.abf9.7e0b)
   Internet address is 10.0.0.1/30
@@ -636,22 +470,21 @@ GigabitEthernet0/0/0/0 is up, line protocol is up
   Last clearing of "show interface" counters never
   5 minute input rate 0 bits/sec, 0 packets/sec
   5 minute output rate 0 bits/sec, 0 packets/sec
-     866241 packets input, 75923253 bytes, 0 total input drops
+     873918 packets input, 76607466 bytes, 0 total input drops
      0 drops for unrecognized upper-level protocol
-     Received 0 broadcast packets, 483252 multicast packets
+     Received 0 broadcast packets, 487611 multicast packets
               0 runts, 0 giants, 0 throttles, 0 parity
      0 input errors, 0 CRC, 0 frame, 0 overrun, 0 ignored, 0 abort
-     907040 packets output, 79640460 bytes, 0 total output drops
-     Output 2 broadcast packets, 483373 multicast packets
+     915121 packets output, 80351778 bytes, 0 total output drops
+     Output 2 broadcast packets, 487729 multicast packets
      0 output errors, 0 underruns, 0 applique, 0 resets
      0 output buffer failures, 0 output buffers swapped out
      1 carrier transitions
 
-router=P0
-COMMAND: show interfaces GigabitEthernet0/0/0/0
-OUTPUT:
-Fri Jul 17 14:51:24.648 UTC
-GigabitEthernet0/0/0/0 is up, line protocol is up 
+[2026-07-17T20:36:04+02:00] MCP cisco-lab COMMAND on P0: show interfaces GigabitEthernet0/0/0/0
+[2026-07-17T20:36:04+02:00] OUTPUT:
+Fri Jul 17 18:35:31.356 UTC
+GigabitEthernet0/0/0/0 is up, line protocol is up
   Interface state transitions: 1
   Hardware is GigabitEthernet, address is aac1.ab13.9750 (bia aac1.ab13.9750)
   Internet address is 10.0.0.2/30
@@ -668,40 +501,50 @@ GigabitEthernet0/0/0/0 is up, line protocol is up
   Last clearing of "show interface" counters never
   5 minute input rate 0 bits/sec, 0 packets/sec
   5 minute output rate 0 bits/sec, 0 packets/sec
-     906962 packets input, 79637700 bytes, 0 total input drops
+     915044 packets input, 80349128 bytes, 0 total input drops
      0 drops for unrecognized upper-level protocol
-     Received 2 broadcast packets, 483295 multicast packets
+     Received 2 broadcast packets, 487652 multicast packets
               0 runts, 0 giants, 0 throttles, 0 parity
      0 input errors, 0 CRC, 0 frame, 0 overrun, 0 ignored, 0 abort
-     866248 packets output, 75923855 bytes, 0 total output drops
-     Output 1 broadcast packets, 483258 multicast packets
+     873925 packets output, 76608068 bytes, 0 total output drops
+     Output 1 broadcast packets, 487617 multicast packets
      0 output errors, 0 underruns, 0 applique, 0 resets
      0 output buffer failures, 0 output buffers swapped out
      1 carrier transitions
 
-[2026-07-17 live troubleshooting batch 7]
-router=PE1
-COMMAND: show running-config router ospf
-OUTPUT:
-Fri Jul 17 14:51:49.553 UTC
-router ospf 1
- router-id 1.1.1.1
- area 0
-  interface Loopback0
-  !
-  interface GigabitEthernet0/0/0/0
-  !
- !
-!
+[2026-07-17T20:36:39+02:00] MCP cisco-lab COMMAND on PE1: show ipv4 interface GigabitEthernet0/0/0/0
+[2026-07-17T20:36:39+02:00] OUTPUT:
+Fri Jul 17 18:36:13.967 UTC
+GigabitEthernet0/0/0/0 is Up, ipv4 protocol is Up
+  Vrf is default (vrfid 0x60000000)
+  Internet address is 10.0.0.1/30
+  MTU is 1514 (500 is available to IP)
+  Helper address is not set
+  Multicast reserved groups joined: 224.0.0.2 224.0.0.5 224.0.0.6
+  Directed broadcast forwarding is disabled
+  Outgoing access list is not set
+  Inbound  common access list is not set, access list is not set
+  Proxy ARP is disabled
+  ICMP redirects are never sent
+  ICMP unreachables are always sent
+  ICMP mask replies are never sent
+  Table Id is 0xe0000000
 
-[2026-07-17 live troubleshooting batch 8]
-router=PE1
-COMMAND: show running-config interface GigabitEthernet0/0/0/0
-OUTPUT:
-Fri Jul 17 14:52:02.317 UTC
-interface GigabitEthernet0/0/0/0
- ipv4 mtu 800
- ipv4 address 10.0.0.1 255.255.255.252
-!
-
+[2026-07-17T20:36:39+02:00] MCP cisco-lab COMMAND on P0: show ipv4 interface GigabitEthernet0/0/0/0
+[2026-07-17T20:36:39+02:00] OUTPUT:
+Fri Jul 17 18:36:17.663 UTC
+GigabitEthernet0/0/0/0 is Up, ipv4 protocol is Up
+  Vrf is default (vrfid 0x60000000)
+  Internet address is 10.0.0.2/30
+  MTU is 1514 (1500 is available to IP)
+  Helper address is not set
+  Multicast reserved groups joined: 224.0.0.2 224.0.0.5 224.0.0.6
+  Directed broadcast forwarding is disabled
+  Outgoing access list is not set
+  Inbound  common access list is not set, access list is not set
+  Proxy ARP is disabled
+  ICMP redirects are never sent
+  ICMP unreachables are always sent
+  ICMP mask replies are never sent
+  Table Id is 0xe0000000
 

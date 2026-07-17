@@ -1,105 +1,42 @@
-# Cisco lab MCP server
+# MPLS Troubleshooting Agent Demo
 
-A minimal, read-only MCP server that connects to the routers in `nodes.txt` over
-SSH using one shared set of credentials. It currently exposes:
+A small demo for troubleshooting an MPLS lab with an AI agent. It exposes Cisco routers through a local [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) server, allowing the agent to list devices and run guarded `show` and `ping` commands.
 
-- `list_cisco_routers` — returns the configured router names.
-- `cisco_show_version(router)` — runs `show version` on one named router.
-- `cisco_show_command(router, command)` — runs any permitted single-line command
-  beginning with `show`.
-- `cisco_ping(router, command)` — runs a complete single-line Cisco `ping`
-  command, including optional source, count, VRF, or other CLI arguments.
+The included topology contains provider, route-reflector, and customer-edge routers. Router endpoints are configured in `nodes.txt`, while `topology.txt` describes their links.
 
 ## Setup
 
+Requires Python 3.10+ and SSH access to the lab routers.
+
 ```bash
-python3 -m venv .venv
+python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
+Create `.env` with the lab credentials:
 
-Inventory entries use the existing compact format:
-
-```text
-{PE1: {192.0.2.10:22}}
+```dotenv
+CISCO_USERNAME=your_username
+CISCO_PASSWORD=your_password
 ```
 
-Start the server:
+## Run the demo
+
+Start the MCP server:
 
 ```bash
-source .venv/bin/activate
 python server.py
 ```
 
-The streamable HTTP MCP endpoint is `http://127.0.0.1:8000/mcp`. Set `MCP_HOST`
-to `0.0.0.0` only when remote clients must reach it and the network is trusted.
+In another terminal, you can test MCP server with deterministic python client:   
 
-Example MCP client configuration for a server already running locally:
-
-```json
-{
-  "mcpServers": {
-    "cisco-lab": {
-      "url": "http://127.0.0.1:8000/mcp"
-    }
-  }
-}
-```
-
-## Deterministic Python client
-
-`client.py` automates the same MCP protocol flow shown in the `curl` examples.
-There is no LLM, API key, tool selection, or reasoning involved:
-
-```text
-Python client
-    -> initialize MCP session
-    -> tools/list
-    -> tools/call list_cisco_routers
-    -> tools/call cisco_show_command {"router": "P0", "command": "show version"}
-    -> print the MCP response
-```
-
-Run `server.py` in the first terminal. In a second terminal, start the
-client:
-
-```bash
-source .venv/bin/activate
-python client.py
-```
-
-Choose another router:
-
-```bash
-python client.py --router PE1
-```
-
-Choose any read-only `show` command:
-
-```bash
-python client.py --router PE1 --command "show clock"
-python client.py --router P0 --command "show interfaces brief"
-```
-
-Commands that do not begin with `show`, contain a newline, or use a semicolon
-command separator are rejected by the MCP server.
-
-Run a ping through the MCP tool:
-
-```bash
-python client.py --router P0 --ping "ping 127.0.0.1"
-python client.py --router PE1 --ping "ping 172.16.0.2 source 172.16.0.1"
-```
-
-The command must begin with `ping` and contain arguments after it. Multiline and
-semicolon-separated commands are rejected.
-
-Only demonstrate initialization, tool discovery, and router listing:
+list the available routers or run a diagnostic command:
 
 ```bash
 python client.py --list-only
+python client.py --router PE1 --command "show mpls forwarding"
+python client.py --router PE1 --ping "ping 172.16.0.2 source 172.16.0.1"
 ```
 
-The client prints each MCP operation, the negotiated session ID, discovered
-tools, arguments sent to `tools/call`, and the returned router output.
+By default, the server is available at `http://127.0.0.1:8000/mcp`.
