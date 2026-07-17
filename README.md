@@ -5,6 +5,10 @@ SSH using one shared set of credentials. It currently exposes:
 
 - `list_cisco_routers` — returns the configured router names.
 - `cisco_show_version(router)` — runs `show version` on one named router.
+- `cisco_show_command(router, command)` — runs any permitted single-line command
+  beginning with `show`.
+- `cisco_ping(router, command)` — runs a complete single-line Cisco `ping`
+  command, including optional source, count, VRF, or other CLI arguments.
 
 ## Setup
 
@@ -53,7 +57,7 @@ Python client
     -> initialize MCP session
     -> tools/list
     -> tools/call list_cisco_routers
-    -> tools/call cisco_show_version {"router": "P0"}
+    -> tools/call cisco_show_command {"router": "P0", "command": "show version"}
     -> print the MCP response
 ```
 
@@ -70,6 +74,26 @@ Choose another router:
 ```bash
 python client.py --router PE1
 ```
+
+Choose any read-only `show` command:
+
+```bash
+python client.py --router PE1 --command "show clock"
+python client.py --router P0 --command "show interfaces brief"
+```
+
+Commands that do not begin with `show`, contain a newline, or use a semicolon
+command separator are rejected by the MCP server.
+
+Run a ping through the MCP tool:
+
+```bash
+python client.py --router P0 --ping "ping 127.0.0.1"
+python client.py --router PE1 --ping "ping 172.16.0.2 source 172.16.0.1"
+```
+
+The command must begin with `ping` and contain arguments after it. Multiline and
+semicolon-separated commands are rejected.
 
 Only demonstrate initialization, tool discovery, and router listing:
 

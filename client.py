@@ -35,16 +35,24 @@ def result_value(result: Any) -> Any:
     return "\n".join(text_items)
 
 
-async def call_tool(session: ClientSession, name: str, arguments: dict[str, Any]) -> Any:
+async def call_tool(
+    session: ClientSession,
+    name: str,
+    arguments: dict[str, Any],
+) -> tuple[Any, bool]:
     print(f"Request: tools/call {name}({json.dumps(arguments)})")
     result = await session.call_tool(name, arguments)
     value = result_value(result)
-    if result.isError:
-        raise RuntimeError(f"MCP tool {name} failed: {value}")
-    return value
+    return value, bool(result.isError)
 
 
-async def run(mcp_url: str, router: str, list_only: bool) -> None:
+async def run(
+    mcp_url: str,
+    router: str,
+    command: str,
+    ping: str | None,
+    list_only: bool,
+) -> None:
     timeout = httpx.Timeout(connect=10, read=None, write=30, pool=10)
     async with httpx.AsyncClient(timeout=timeout) as http_client:
         async with streamable_http_client(
@@ -63,19 +71,40 @@ async def run(mcp_url: str, router: str, list_only: bool) -> None:
                     print(f"- {tool.name}: {tool.description}")
 
                 print_step(3, "tools/call: list_cisco_routers")
-                routers = await call_tool(session, "list_cisco_routers", {})
+                routers, routers_error = await call_tool(
+                    session,
+                    "list_cisco_routers",
+                    {},
+                )
+                if routers_error:
+                    print(f"MCP error: {routers}")
+                    return
                 print(f"Response: {json.dumps(routers, indent=2)}")
 
                 if list_only:
                     return
 
-                print_step(4, "tools/call: cisco_show_version")
-                output = await call_tool(
-                    session,
-                    "cisco_show_version",
-                    {"router": router},
-                )
-                print(f"Response from {router}:\n{output}")
+                if ping:
+                    print_step(4, "tools/call: cisco_ping")
+                    output, tool_error = await call_tool(
+                        session,
+                        "cisco_ping",
+                        {"router": router, "command": ping},
+                    )
+                    operation = ping
+                else:
+                    print_step(4, "tools/call: cisco_show_command")
+                    output, tool_error = await call_tool(
+                        session,
+                        "cisco_show_command",
+                        {"router": router, "command": command},
+                    )
+                    operation = command
+
+                if tool_error:
+                    print(f"MCP rejected the request: {output}")
+                else:
+                    print(f"Response from {router} for {operation!r}:\n{output}")
 
 
 def parse_args() -> argparse.Namespace:
@@ -90,7 +119,17 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--router",
         default="P0",
-        help="Router used for show version (default: P0)",
+        help="Router on which to run the command (default: P0)",
+    )
+    parser.add_argument(
+        "--command",
+        default="show version",
+        help="Cisco show command to run (default: show version)",
+    )
+    parser.add_argument(
+        "--ping",
+        metavar="COMMAND",
+        help="Full Cisco ping command, including the initial 'ping'.",
     )
     parser.add_argument(
         "--list-only",
@@ -103,7 +142,15 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     args = parse_args()
     try:
-        asyncio.run(run(args.mcp_url, args.router, args.list_only))
+        asyncio.run(
+            run(
+                args.mcp_url,
+                args.router,
+                args.command,
+                args.ping,
+                args.list_only,
+            )
+        )
     except KeyboardInterrupt:
         pass
     except Exception as exc:

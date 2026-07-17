@@ -1,0 +1,9 @@
+  links:
+    - endpoints: ["CE1:Gi0-0-0-0", "PE1:Gi0-0-0-1"]
+    - endpoints: ["PE1:Gi0-0-0-0", "P0:Gi0-0-0-0"]
+    - endpoints: ["P0:Gi0-0-0-1", "PE2:Gi0-0-0-0"]
+    - endpoints: ["PE2:Gi0-0-0-1", "CE2:Gi0-0-0-0"]
+    - endpoints: ["P0:Gi0-0-0-2", "RR:Gi0-0-0-0"]
+    - endpoints: ["CE3:Gi0-0-0-0", "PE1:Gi0-0-0-2"]
+    - endpoints: ["PE1:Gi0-0-0-3", "CE1:Gi0-0-0-1"]
+    - endpoints: ["PE2:Gi0-0-0-2", "CE2:Gi0-0-0-1"]

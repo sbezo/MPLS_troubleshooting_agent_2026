@@ -1,0 +1,707 @@
+[2026-07-17 14:41:55 UTC] router=CE1
+COMMAND: ping 172.16.0.2 source 172.16.0.1
+OUTPUT:
+Fri Jul 17 14:41:55.014 UTC
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 172.16.0.2 timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 4/4/6 ms
+
+[2026-07-17 live troubleshooting batch 1]
+router=CE1
+COMMAND: ping 172.16.0.2 source 172.16.0.1
+OUTPUT:
+Fri Jul 17 14:46:54.087 UTC
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 172.16.0.2 timeout is 2 seconds:
+.....
+Success rate is 0 percent (0/5)
+
+router=CE1
+COMMAND: show route 172.16.0.2
+OUTPUT:
+Fri Jul 17 14:47:08.327 UTC
+
+Routing entry for 172.16.0.2/32
+  Known via "static", distance 1, metric 0
+  Installed Jun 30 07:57:34.139 for 2w3d
+  Routing Descriptor Blocks
+    10.10.0.1
+      Route metric is 0
+  No advertising protos.
+
+router=CE1
+COMMAND: show bgp ipv4 unicast 172.16.0.2
+OUTPUT:
+Fri Jul 17 14:47:12.730 UTC
+% BGP instance 'default' not active
+
+router=CE1
+COMMAND: show interfaces brief
+OUTPUT:
+Fri Jul 17 14:47:17.474 UTC
+
+               Intf       Intf        LineP              Encap  MTU        BW
+               Name       State       State               Type (byte)    (Kbps)
+--------------------------------------------------------------------------------
+                Lo0          up          up           Loopback  1500          0
+                Nu0          up          up               Null  1500          0
+     Mg0/RP0/CPU0/0          up          up               ARPA  1514    1000000
+          Gi0/0/0/0          up          up               ARPA  1514    1000000
+          Gi0/0/0/1          up          up               ARPA  1514    1000000
+      Gi0/0/0/1.200          up          up             802.1Q  1518    1000000
+      Gi0/0/0/1.300          up          up             802.1Q  1518    1000000
+
+router=CE2
+COMMAND: show interfaces brief
+OUTPUT:
+Fri Jul 17 14:47:21.943 UTC
+
+               Intf       Intf        LineP              Encap  MTU        BW
+               Name       State       State               Type (byte)    (Kbps)
+--------------------------------------------------------------------------------
+                Lo0          up          up           Loopback  1500          0
+                Nu0          up          up               Null  1500          0
+     Mg0/RP0/CPU0/0          up          up               ARPA  1514    1000000
+          Gi0/0/0/0          up          up               ARPA  1514    1000000
+          Gi0/0/0/1          up          up               ARPA  1514    1000000
+      Gi0/0/0/1.200          up          up             802.1Q  1518    1000000
+      Gi0/0/0/1.300          up          up             802.1Q  1518    1000000
+
+[2026-07-17 live troubleshooting batch 2]
+router=CE1
+COMMAND: show arp 10.10.0.1
+OUTPUT:
+Fri Jul 17 14:47:48.387 UTC
+
+-------------------------------------------------------------------------------
+0/RP0/CPU0
+-------------------------------------------------------------------------------
+Address         Age        Hardware Addr   State      Type  Interface
+10.10.0.1       00:18:01   aac1.ab90.76a1  Dynamic    ARPA  GigabitEthernet0/0/0/0
+
+router=CE1
+COMMAND: show ipv4 interface brief
+OUTPUT:
+Fri Jul 17 14:47:52.062 UTC
+
+Interface                      IP-Address      Status          Protocol Vrf-Name
+Loopback0                      172.16.0.1      Up              Up       default 
+MgmtEth0/RP0/CPU0/0            172.20.20.33    Up              Up       Mgmt-intf
+GigabitEthernet0/0/0/0         10.10.0.2       Up              Up       default 
+GigabitEthernet0/0/0/1         unassigned      Up              Up       default 
+GigabitEthernet0/0/0/1.200     192.168.200.1   Up              Up       default 
+GigabitEthernet0/0/0/1.300     192.168.230.1   Up              Up       default
+
+router=PE1
+COMMAND: show vrf all
+OUTPUT:
+Fri Jul 17 14:47:56.725 UTC
+VRF                  RD                  RT                         AFI   SAFI     
+CUST-A               65000:1            
+                                         import  65000:100           IPV4  Unicast  
+                                         export  65000:100           IPV4  Unicast  
+Mgmt-intf            not set
+
+router=PE1
+COMMAND: show ipv4 interface brief
+OUTPUT:
+Fri Jul 17 14:48:03.076 UTC
+
+Interface                      IP-Address      Status          Protocol Vrf-Name
+Loopback0                      1.1.1.1         Up              Up       default 
+MgmtEth0/RP0/CPU0/0            172.20.20.31    Up              Up       Mgmt-intf
+GigabitEthernet0/0/0/0         10.0.0.1        Up              Up       default 
+GigabitEthernet0/0/0/1         10.10.0.1       Up              Up       CUST-A  
+GigabitEthernet0/0/0/2         unassigned      Up              Up       default 
+GigabitEthernet0/0/0/2.300     unassigned      Up              Up       default 
+GigabitEthernet0/0/0/3         unassigned      Up              Up       default 
+GigabitEthernet0/0/0/3.200     unassigned      Up              Up       default 
+GigabitEthernet0/0/0/3.300     unassigned      Up              Up       default
+
+router=PE2
+COMMAND: show vrf all
+OUTPUT:
+Fri Jul 17 14:48:07.632 UTC
+VRF                  RD                  RT                         AFI   SAFI     
+CUST-A               65000:2            
+                                         import  65000:100           IPV4  Unicast  
+                                         export  65000:100           IPV4  Unicast  
+Mgmt-intf            not set
+
+router=PE2
+COMMAND: show ipv4 interface brief
+OUTPUT:
+Fri Jul 17 14:48:11.840 UTC
+
+Interface                      IP-Address      Status          Protocol Vrf-Name
+Loopback0                      1.1.1.2         Up              Up       default 
+MgmtEth0/RP0/CPU0/0            172.20.20.32    Up              Up       Mgmt-intf
+GigabitEthernet0/0/0/0         10.0.0.6        Up              Up       default 
+GigabitEthernet0/0/0/1         10.10.0.5       Up              Up       CUST-A  
+GigabitEthernet0/0/0/2         unassigned      Up              Up       default 
+GigabitEthernet0/0/0/2.200     unassigned      Up              Up       default 
+GigabitEthernet0/0/0/2.300     unassigned      Up              Up       default
+
+[2026-07-17 live troubleshooting batch 3]
+router=PE1
+COMMAND: show route vrf CUST-A 172.16.0.2
+OUTPUT:
+Fri Jul 17 14:48:28.280 UTC
+
+% Network not in table
+
+router=PE2
+COMMAND: show route vrf CUST-A 172.16.0.1
+OUTPUT:
+Fri Jul 17 14:48:32.425 UTC
+
+% Network not in table
+
+router=PE1
+COMMAND: show bgp vrf CUST-A ipv4 unicast 172.16.0.2
+OUTPUT:
+Fri Jul 17 14:48:41.301 UTC
+%% Network not in table
+
+router=PE2
+COMMAND: show bgp vrf CUST-A ipv4 unicast 172.16.0.1
+OUTPUT:
+Fri Jul 17 14:48:36.618 UTC
+%% Network not in table
+
+router=PE1
+COMMAND: show bgp vpnv4 unicast summary
+OUTPUT:
+Fri Jul 17 14:48:45.870 UTC
+BGP router identifier 1.1.1.1, local AS number 65000
+BGP generic scan interval 60 secs
+Non-stop routing is enabled
+BGP table state: Active
+Table ID: 0x0
+BGP main routing table version 21
+BGP NSR Initial initsync version 6 (Reached)
+BGP NSR/ISSU Sync-Group versions 0/0
+BGP scan interval 60 secs
+
+BGP is operating in STANDALONE mode.
+
+
+Process    RcvTblVer     bRIB/RIB     LabelVer    ImportVer    SendTblVer   StandbyVer
+Speaker           21            21            21            21            21             0
+
+Neighbor        Spk    AS MsgRcvd MsgSent       TblVer  InQ OutQ  Up/Down  St/PfxRcd
+1.1.1.5           0 65000   24892   24894            0    0    0 00:00:58  Idle
+
+router=PE2
+COMMAND: show bgp vpnv4 unicast summary
+OUTPUT:
+Fri Jul 17 14:48:52.908 UTC
+BGP router identifier 1.1.1.2, local AS number 65000
+BGP generic scan interval 60 secs
+Non-stop routing is enabled
+BGP table state: Active
+Table ID: 0x0
+BGP main routing table version 21
+BGP NSR Initial initsync version 6 (Reached)
+BGP NSR/ISSU Sync-Group versions 0/0
+BGP scan interval 60 secs
+
+BGP is operating in STANDALONE mode.
+
+
+Process    RcvTblVer     bRIB/RIB     LabelVer    ImportVer    SendTblVer   StandbyVer
+Speaker           21            21            21            21            21             0
+
+Neighbor        Spk    AS MsgRcvd MsgSent       TblVer  InQ OutQ  Up/Down  St/PfxRcd
+1.1.1.5           0 65000   24900   24893           21    0    0     2w3d          0
+
+[2026-07-17 live troubleshooting batch 4]
+router=PE1
+COMMAND: show bgp neighbors 1.1.1.5 detail
+OUTPUT:
+Fri Jul 17 14:49:32.673 UTC
+
+BGP neighbor is 1.1.1.5
+ Remote AS 65000, local AS 65000, internal link
+ Remote router ID 0.0.0.0
+  BGP state = Idle (No route to multi-hop neighbor)
+  Previous State: Closing
+  Handle 0x72de1f8b0b40 allocated at Jun 30 07:49:24.899
+  Last Received Message: KeepAlive
+  NSR State: None
+  Last read 00:00:00, Last read before reset 00:04:45
+  Hold time is 180, keepalive interval is 60 seconds
+  Configured hold time: 180, keepalive: 60, min acceptable hold time: 3
+  Last write 00:01:45, attempted 21, written 21
+  Second last write 00:01:45, attempted 19, written 19
+  Last write before reset 00:01:45, attempted 19, written 19
+  Second last write before reset 00:02:45, attempted 19, written 19
+  Last write pulse rcvd  Jul 17 14:44:47.347 last full not set pulse count 41407
+  Last write pulse rcvd before reset 00:04:45
+  Last insert into reset queue: Jul 17 14:47:47.348, removed at Jul 17 14:47:47.348
+  Socket not armed for io, not armed for read, not armed for write
+  Last write thread event before reset 00:01:45, second last 00:02:45
+  Last KA expiry before reset 00:01:45, second last 00:02:45
+  Last KA error before reset 00:00:00, KA not sent 00:00:00
+  Last KA start before reset 00:01:45, second last 00:02:45
+  First message before reset received at Jun 30 08:42:42.742, sent at Jun 30 08:42:40.738
+  Precedence: internet
+  Non-stop routing is enabled
+  Entered Neighbor NSR TCP mode:
+    TCP Initial Sync :              ---                
+    TCP Initial Sync Phase Two :    ---                
+    TCP Initial Sync Done :         ---                
+  Scoped Sync Ilist Elem Flags : 0x00000000 
+  Multi-protocol capability received
+  Message stats:
+    InQ depth: 0, OutQ depth: 0
+                    Last_Sent               Sent  Last_Rcvd               Rcvd
+    Open:           Jun 30 08:42:40.738        2  Jun 30 08:42:42.742        2
+    Notification:   Jul 17 14:47:47.347        2  ---                        0
+    Update:         Jun 30 08:42:42.775        4  Jun 30 08:42:42.814        8
+    Keepalive:      Jul 17 14:47:47.342    24886  Jul 17 14:44:47.347    24882
+    Route_Refresh:  ---                        0  ---                        0
+    Total:                                 24894                         24892
+  Minimum time between advertisement runs is 0 secs
+  Inbound message logging enabled, 4 messages buffered
+  Outbound message logging enabled, 4 messages buffered
+  Fast fallover is not enabled
+    Neighbor is not directly connected
+    Neighbor fast-fallover is not configured
+  Event specific version bump counts:
+    Interval definitions:
+    Interval   Duration (min)  Start time            End time            
+    Live                    5  Jul 17 14:49:30.352   Jul 17 14:49:32.719 
+    1                       5  Jul 17 14:44:30.352   Jul 17 14:49:30.352 
+    2                      15  Jul 17 14:34:30.352   Jul 17 14:49:30.352 
+    3                      30  Jul 17 14:19:30.352   Jul 17 14:49:30.352 
+    Category                             Total        Live  Interval 1  Interval 2  Interval 3
+    Reachable                                2           0           0           0           0
+    Unreachable                              0           0           0           0           0
+  Outstanding Postits: 0
+
+  NSR state transitions:
+    Current state   Transition time      Previous state  Sync flags     
+    None            ---                  None            0x0              
+    TCPDown         ---                  None            0x0              
+    TCPInit         ---                  None            0x0              
+    TCPInit2        ---                  None            0x0              
+    BGPInit         ---                  None            0x0              
+    NSRReady        ---                  None            0x0              
+
+ For Address Family: VPNv4 Unicast
+  BGP neighbor version 0
+  BGP neighbor quick-withdraw version 0
+  Update group: 0.2 Filter-group: 0.0  No Refresh request being processed
+  Route refresh request: received 0, sent 0
+  0 accepted prefixes, 0 are bestpaths
+  Exact no. of prefixes denied: 0
+  Cumulative no. of prefixes denied: 0
+  Prefix advertised 0, suppressed 0, withdrawn 0
+  AIGP is enabled
+  An EoR was not received during read-only mode
+  Last ack version 0, Last synced ack version 0
+  Outstanding version objects: current 0, max 1, refresh 0
+  Additional-paths operation: None
+  Send Multicast Attributes
+  Slow Peer State: Detection-only
+    Detected state: FALSE, Detection threshold: 300
+    Detection Count: 0, Recovery Count: 0
+  Total paths delayed for OOR: 0
+  Paths currently delayed for OOR: 0
+  Event specific version bump counts:
+    Category                             Total        Live  Interval 1  Interval 2  Interval 3
+    Reachable                                2           0           0           0           0
+    Unreachable                              0           0           0           0           0
+
+  Connections established 2; dropped 2
+  Local host: 1.1.1.1, Local port: 55333, IF Handle: 0x00000000
+  Foreign host: 1.1.1.5, Foreign port: 179
+  Last reset 00:01:45, due to BGP Notification sent: hold time expired
+  Time since last notification sent to neighbor: 00:01:45
+  Error Code: hold time expired
+  Notification data sent:
+    None
+
+router=PE1
+COMMAND: show route 1.1.1.5
+OUTPUT:
+Fri Jul 17 14:49:28.742 UTC
+
+% Network not in table
+
+router=PE1
+COMMAND: ping 1.1.1.5 source 1.1.1.1
+OUTPUT:
+Fri Jul 17 14:49:11.995 UTC
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 1.1.1.5 timeout is 2 seconds:
+.....
+Success rate is 0 percent (0/5)
+
+router=RR
+COMMAND: show bgp vpnv4 unicast summary
+OUTPUT:
+Fri Jul 17 14:49:42.432 UTC
+BGP router identifier 1.1.1.5, local AS number 65000
+BGP generic scan interval 60 secs
+Non-stop routing is enabled
+BGP table state: Active
+Table ID: 0x0
+BGP main routing table version 8
+BGP NSR Initial initsync version 3 (Reached)
+BGP NSR/ISSU Sync-Group versions 0/0
+BGP scan interval 60 secs
+
+BGP is operating in STANDALONE mode.
+
+
+Process    RcvTblVer     bRIB/RIB     LabelVer    ImportVer    SendTblVer   StandbyVer
+Speaker            8             8             8             8             8             0
+
+Neighbor        Spk    AS MsgRcvd MsgSent       TblVer  InQ OutQ  Up/Down  St/PfxRcd
+1.1.1.1           0 65000   24887   24900            0    0    0 00:01:55  Idle
+1.1.1.2           0 65000   24894   24900            8    0    0     2w3d          1
+
+router=RR
+COMMAND: show bgp neighbors 1.1.1.1 detail
+OUTPUT:
+Fri Jul 17 14:49:37.390 UTC
+
+BGP neighbor is 1.1.1.1
+ Remote AS 65000, local AS 65000, internal link
+ Remote router ID 0.0.0.0
+ Cluster ID 1.1.1.5
+  BGP state = Idle (No route to multi-hop neighbor)
+  Previous State: Closing
+  Handle 0x7d13f837eb40 allocated at Jun 30 07:58:38.154
+  Last Received Message: KeepAlive
+  NSR State: None
+  Last read 00:00:00, Last read before reset 00:04:50
+  Hold time is 180, keepalive interval is 60 seconds
+  Configured hold time: 180, keepalive: 60, min acceptable hold time: 3
+  Last write 00:01:50, attempted 21, written 21
+  Second last write 00:02:48, attempted 19, written 19
+  Last write before reset 00:02:48, attempted 19, written 19
+  Second last write before reset 00:03:48, attempted 19, written 19
+  Last write pulse rcvd  Jul 17 14:44:47.553 last full not set pulse count 49178
+  Last write pulse rcvd before reset 00:04:49
+  Last insert into reset queue: Jul 17 14:47:47.346, removed at Jul 17 14:47:47.346
+  Socket not armed for io, not armed for read, not armed for write
+  Last write thread event before reset 00:02:42, second last 00:02:48
+  Last KA expiry before reset 00:02:48, second last 00:03:48
+  Last KA error before reset 00:00:00, KA not sent 00:00:00
+  Last KA start before reset 00:02:48, second last 00:03:48
+  First message before reset received at Jun 30 08:42:42.740, sent at Jun 30 08:42:42.741
+  Precedence: internet
+  Non-stop routing is enabled
+  Entered Neighbor NSR TCP mode:
+    TCP Initial Sync :              ---                
+    TCP Initial Sync Phase Two :    ---                
+    TCP Initial Sync Done :         ---                
+  Scoped Sync Ilist Elem Flags : 0x00000000 
+  Multi-protocol capability received
+  Message stats:
+    InQ depth: 0, OutQ depth: 0
+                    Last_Sent               Sent  Last_Rcvd               Rcvd
+    Open:           Jun 30 08:42:42.741        2  Jun 30 08:42:42.740        2
+    Notification:   Jul 17 14:47:47.345        2  ---                        0
+    Update:         Jul 17 14:44:48.979       10  Jun 30 08:42:42.784        4
+    Keepalive:      Jul 17 14:46:48.981    24886  Jul 17 14:44:47.344    24881
+    Route_Refresh:  ---                        0  ---                        0
+    Total:                                 24900                         24887
+  Minimum time between advertisement runs is 0 secs
+  Inbound message logging enabled, 4 messages buffered
+  Outbound message logging enabled, 4 messages buffered
+  Fast fallover is not enabled
+    Neighbor is not directly connected
+    Neighbor fast-fallover is not configured
+  Event specific version bump counts:
+    Interval definitions:
+    Interval   Duration (min)  Start time            End time            
+    Live                    5  Jul 17 14:48:44.332   Jul 17 14:49:37.443 
+    1                       5  Jul 17 14:43:44.332   Jul 17 14:48:44.332 
+    2                      15  Jul 17 14:28:44.331   Jul 17 14:43:44.331 
+    3                      30  Jul 17 13:58:44.326   Jul 17 14:28:44.326 
+    Category                             Total        Live  Interval 1  Interval 2  Interval 3
+    Reachable                                1           0           0           0           0
+    Unreachable                              0           0           0           0           0
+  Outstanding Postits: 0
+
+  NSR state transitions:
+    Current state   Transition time      Previous state  Sync flags     
+    None            ---                  None            0x0              
+    TCPDown         ---                  None            0x0              
+    TCPInit         ---                  None            0x0              
+    TCPInit2        ---                  None            0x0              
+    BGPInit         ---                  None            0x0              
+    NSRReady        ---                  None            0x0              
+
+ For Address Family: VPNv4 Unicast
+  BGP neighbor version 0
+  BGP neighbor quick-withdraw version 0
+  Update group: 0.2 Filter-group: 0.0  No Refresh request being processed
+  Route-Reflector Client
+  Route refresh request: received 0, sent 0
+  0 accepted prefixes, 0 are bestpaths
+  Exact no. of prefixes denied: 0
+  Cumulative no. of prefixes denied: 0
+  Prefix advertised 0, suppressed 0, withdrawn 0
+  AIGP is enabled
+  An EoR was received during read-only mode
+  Last ack version 0, Last synced ack version 0
+  Outstanding version objects: current 0, max 3, refresh 0
+  Additional-paths operation: None
+  Send Multicast Attributes
+  Slow Peer State: Detection-only
+    Detected state: FALSE, Detection threshold: 300
+    Detection Count: 0, Recovery Count: 0
+  Total paths delayed for OOR: 0
+  Paths currently delayed for OOR: 0
+  Event specific version bump counts:
+    Category                             Total        Live  Interval 1  Interval 2  Interval 3
+    Reachable                                1           0           0           0           0
+    Unreachable                              0           0           0           0           0
+
+  Connections established 2; dropped 2
+  Local host: 1.1.1.5, Local port: 179, IF Handle: 0x00000000
+  Foreign host: 1.1.1.1, Foreign port: 55333
+  Last reset 00:01:50, due to BGP Notification sent: hold time expired
+  Time since last notification sent to neighbor: 00:01:50
+  Error Code: hold time expired
+  Notification data sent:
+    None
+
+[2026-07-17 live troubleshooting batch 5]
+router=PE1
+COMMAND: show ospf neighbor
+OUTPUT:
+Fri Jul 17 14:50:12.345 UTC
+
+* Indicates MADJ interface
+# Indicates Neighbor awaiting BFD session up
+
+Neighbors for OSPF 1
+
+Neighbor ID     Pri   State           Dead Time   Address         Interface
+1.1.1.0         1     EXSTART/BDR     00:00:38    10.0.0.2        GigabitEthernet0/0/0/0
+    Neighbor is up for 00:00:16
+
+Total neighbor count: 1
+
+router=PE1
+COMMAND: show isis neighbors
+OUTPUT:
+Fri Jul 17 14:50:02.668 UTC
+
+No IS-IS instances found
+
+router=P0
+COMMAND: show ospf neighbor
+OUTPUT:
+Fri Jul 17 14:50:07.320 UTC
+
+* Indicates MADJ interface
+# Indicates Neighbor awaiting BFD session up
+
+Neighbors for OSPF 1
+
+Neighbor ID     Pri   State           Dead Time   Address         Interface
+1.1.1.1         1     EXCHANGE/DR     00:00:38    10.0.0.1        GigabitEthernet0/0/0/0
+    Neighbor is up for 00:00:11
+1.1.1.2         1     FULL/DR         00:00:34    10.0.0.6        GigabitEthernet0/0/0/1
+    Neighbor is up for 2w3d
+1.1.1.5         1     FULL/BDR        00:00:34    10.0.0.10       GigabitEthernet0/0/0/2
+    Neighbor is up for 2w3d
+
+Total neighbor count: 3
+
+router=P0
+COMMAND: show isis neighbors
+OUTPUT:
+Error executing tool cisco_show_command: SSH command failed on P0 (10.208.116.71:2310): 
+Pattern not detected: 'Fri\\ Jul\\ 17\\ 14:50:16\\.564\\ UTC' in output.
+
+Things you might try to fix this:
+1. Explicitly set your pattern using the expect_string argument.
+2. Increase the read_timeout to a larger value.
+
+You can also look at the Netmiko session_log or debug log for more information.
+
+router=P0
+COMMAND: show route 1.1.1.1
+OUTPUT:
+Fri Jul 17 14:50:50.993 UTC
+
+% Network not in table
+
+router=P0
+COMMAND: show route 1.1.1.5
+OUTPUT:
+Fri Jul 17 14:50:56.959 UTC
+
+Routing entry for 1.1.1.5/32
+  Known via "ospf 1", distance 110, metric 2, type intra area
+  Installed Jun 30 07:58:40.592 for 2w3d
+  Routing Descriptor Blocks
+    10.0.0.10, from 1.1.1.5, via GigabitEthernet0/0/0/2
+      Route metric is 2
+  No advertising protos.
+
+router=PE1
+COMMAND: show route 1.1.1.2
+OUTPUT:
+Fri Jul 17 14:51:01.858 UTC
+
+% Network not in table
+
+[2026-07-17 live troubleshooting batch 6]
+router=PE1
+COMMAND: show ospf interface GigabitEthernet0/0/0/0
+OUTPUT:
+Fri Jul 17 14:51:29.975 UTC
+
+GigabitEthernet0/0/0/0 is up, line protocol is up 
+  Internet Address 10.0.0.1/30, Area 0, SID 0, Strict-SPF SID 0
+  Label stack Primary label 1 Backup label 3 SRTE label 10
+  auto path capability supported
+  Process ID 1, Router ID 1.1.1.1, Network Type BROADCAST, Cost: 1
+  Transmit Delay is 1 sec, State DR, Priority 1, MTU 800, MaxPktSz 800
+  Forward reference No, Unnumbered no,  Bandwidth 1000000 
+  RIB LC sync Yes
+  Designated Router (ID) 1.1.1.1, Interface address 10.0.0.1
+  No backup designated router on this network
+  Timer intervals configured, Hello 10, Dead 40, Wait 40, Retransmit 5
+    Hello due in 00:00:08:167
+  Index 1/1, flood queue length 0
+  Next 0(0)/0(0)
+  Last flood scan length is 1, maximum is 2
+  Last flood scan time is 0 msec, maximum is 0 msec
+  LS Ack List: current length 0, high water mark 6
+  Neighbor Count is 1, Adjacent neighbor count is 0
+  Suppress hello for 0 neighbor(s)
+  Multi-area interface Count is 0
+  Segment Routing Forwarding MPLS enabled: Yes
+  Adjacency hold timer expired last : Never
+  Exchange timer expired last : Never
+
+router=P0
+COMMAND: show ospf interface GigabitEthernet0/0/0/0
+OUTPUT:
+Fri Jul 17 14:51:34.881 UTC
+
+GigabitEthernet0/0/0/0 is up, line protocol is up 
+  Internet Address 10.0.0.2/30, Area 0, SID 0, Strict-SPF SID 0
+  Label stack Primary label 1 Backup label 3 SRTE label 10
+  auto path capability supported
+  Process ID 1, Router ID 1.1.1.0, Network Type BROADCAST, Cost: 1
+  Transmit Delay is 1 sec, State DR, Priority 1, MTU 1500, MaxPktSz 1500
+  Forward reference No, Unnumbered no,  Bandwidth 1000000 
+  RIB LC sync Yes
+  Designated Router (ID) 1.1.1.0, Interface address 10.0.0.2
+  No backup designated router on this network
+  Timer intervals configured, Hello 10, Dead 40, Wait 40, Retransmit 5
+    Hello due in 00:00:06:418
+  Index 1/1, flood queue length 0
+  Next 0(0)/0(0)
+  Last flood scan length is 3, maximum is 3
+  Last flood scan time is 0 msec, maximum is 0 msec
+  LS Ack List: current length 0, high water mark 2
+  Neighbor Count is 1, Adjacent neighbor count is 0
+  Suppress hello for 0 neighbor(s)
+  Multi-area interface Count is 0
+  Segment Routing Forwarding MPLS enabled: Yes
+  Adjacency hold timer expired last : Never
+  Exchange timer expired last : Never
+
+router=PE1
+COMMAND: show interfaces GigabitEthernet0/0/0/0
+OUTPUT:
+Fri Jul 17 14:51:19.678 UTC
+GigabitEthernet0/0/0/0 is up, line protocol is up 
+  Interface state transitions: 1
+  Hardware is GigabitEthernet, address is aac1.abf9.7e0b (bia aac1.abf9.7e0b)
+  Internet address is 10.0.0.1/30
+  MTU 1514 bytes, BW 1000000 Kbit (Max: 1000000 Kbit)
+     reliability 255/255, txload 0/255, rxload 0/255
+  Encapsulation ARPA,
+  Full-duplex, 1000Mb/s, unknown, link type is force-up
+  output flow control is off, input flow control is off
+  Carrier delay (up) is 10 msec
+  loopback not set,
+  Last link flapped 2w3d
+  ARP type ARPA, ARP timeout 04:00:00
+  Last input 00:00:00, output 00:00:00
+  Last clearing of "show interface" counters never
+  5 minute input rate 0 bits/sec, 0 packets/sec
+  5 minute output rate 0 bits/sec, 0 packets/sec
+     866241 packets input, 75923253 bytes, 0 total input drops
+     0 drops for unrecognized upper-level protocol
+     Received 0 broadcast packets, 483252 multicast packets
+              0 runts, 0 giants, 0 throttles, 0 parity
+     0 input errors, 0 CRC, 0 frame, 0 overrun, 0 ignored, 0 abort
+     907040 packets output, 79640460 bytes, 0 total output drops
+     Output 2 broadcast packets, 483373 multicast packets
+     0 output errors, 0 underruns, 0 applique, 0 resets
+     0 output buffer failures, 0 output buffers swapped out
+     1 carrier transitions
+
+router=P0
+COMMAND: show interfaces GigabitEthernet0/0/0/0
+OUTPUT:
+Fri Jul 17 14:51:24.648 UTC
+GigabitEthernet0/0/0/0 is up, line protocol is up 
+  Interface state transitions: 1
+  Hardware is GigabitEthernet, address is aac1.ab13.9750 (bia aac1.ab13.9750)
+  Internet address is 10.0.0.2/30
+  MTU 1514 bytes, BW 1000000 Kbit (Max: 1000000 Kbit)
+     reliability 255/255, txload 0/255, rxload 0/255
+  Encapsulation ARPA,
+  Full-duplex, 1000Mb/s, unknown, link type is force-up
+  output flow control is off, input flow control is off
+  Carrier delay (up) is 10 msec
+  loopback not set,
+  Last link flapped 2w3d
+  ARP type ARPA, ARP timeout 04:00:00
+  Last input 00:00:00, output 00:00:00
+  Last clearing of "show interface" counters never
+  5 minute input rate 0 bits/sec, 0 packets/sec
+  5 minute output rate 0 bits/sec, 0 packets/sec
+     906962 packets input, 79637700 bytes, 0 total input drops
+     0 drops for unrecognized upper-level protocol
+     Received 2 broadcast packets, 483295 multicast packets
+              0 runts, 0 giants, 0 throttles, 0 parity
+     0 input errors, 0 CRC, 0 frame, 0 overrun, 0 ignored, 0 abort
+     866248 packets output, 75923855 bytes, 0 total output drops
+     Output 1 broadcast packets, 483258 multicast packets
+     0 output errors, 0 underruns, 0 applique, 0 resets
+     0 output buffer failures, 0 output buffers swapped out
+     1 carrier transitions
+
+[2026-07-17 live troubleshooting batch 7]
+router=PE1
+COMMAND: show running-config router ospf
+OUTPUT:
+Fri Jul 17 14:51:49.553 UTC
+router ospf 1
+ router-id 1.1.1.1
+ area 0
+  interface Loopback0
+  !
+  interface GigabitEthernet0/0/0/0
+  !
+ !
+!
+
+[2026-07-17 live troubleshooting batch 8]
+router=PE1
+COMMAND: show running-config interface GigabitEthernet0/0/0/0
+OUTPUT:
+Fri Jul 17 14:52:02.317 UTC
+interface GigabitEthernet0/0/0/0
+ ipv4 mtu 800
+ ipv4 address 10.0.0.1 255.255.255.252
+!
+
+
