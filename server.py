@@ -1,4 +1,5 @@
 import asyncio
+import json
 import os
 import re
 from dataclasses import dataclass
@@ -9,7 +10,7 @@ from netmiko import ConnectHandler
 
 
 BASE_DIR = Path(__file__).resolve().parent
-DEFAULT_NODES_FILE = BASE_DIR / "nodes.txt"
+DEFAULT_NODES_FILE = BASE_DIR / "nodes.json"
 env_path = BASE_DIR / ".env"
 load_dotenv(env_path)
 
@@ -33,42 +34,19 @@ class Router:
     port: int
 
 
-_NODE_PATTERN = re.compile(
-    r"\{\s*(?P<name>[A-Za-z0-9_-]+)\s*:\s*"
-    r"\{\s*(?P<host>[A-Za-z0-9_.:-]+)\s*:\s*(?P<port>\d+)\s*}\s*}"
-)
-
-
-def _nodes_path() -> Path:
-    configured = os.getenv("CISCO_NODES_FILE")
-    if not configured:
-        return DEFAULT_NODES_FILE
-    path = Path(configured).expanduser()
-    return path if path.is_absolute() else BASE_DIR / path
-
-
-def load_routers(path: Path | None = None) -> dict[str, Router]:
-    """Load the compact ``{name: {host: port}}`` entries from nodes.txt."""
-    nodes_path = path or _nodes_path()
-    try:
-        contents = nodes_path.read_text(encoding="utf-8")
-    except OSError as exc:
-        raise RuntimeError(f"Cannot read router inventory {nodes_path}: {exc}") from exc
+def load_routers() -> dict[str, Router]:
+    """Load routers from the JSON inventory in nodes.json."""
+    with DEFAULT_NODES_FILE.open(encoding="utf-8") as inventory:
+        nodes = json.load(inventory)
 
     routers: dict[str, Router] = {}
-    for match in _NODE_PATTERN.finditer(contents):
+    for name, connection in nodes.items():
         router = Router(
-            name=match.group("name"),
-            host=match.group("host"),
-            port=int(match.group("port")),
+            name=name,
+            host=connection["host"],
+            port=connection["port"],
         )
-        key = router.name.casefold()
-        if key in routers:
-            raise RuntimeError(f"Duplicate router name in {nodes_path}: {router.name}")
-        routers[key] = router
-
-    if not routers:
-        raise RuntimeError(f"No router entries found in {nodes_path}")
+        routers[name.casefold()] = router
     return routers
 
 
@@ -211,6 +189,7 @@ def cisco_ping(router: str, command: str) -> str:
 
 
 if __name__ == "__main__":
+    load_routers()
     try:
         mcp.run(transport="streamable-http")
     except (KeyboardInterrupt, asyncio.CancelledError):

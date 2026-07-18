@@ -2,7 +2,7 @@
 
 A small demo for troubleshooting an MPLS lab with an AI agent. It exposes Cisco routers through a local [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) server, allowing the agent to list devices and run guarded `show` and `ping` commands.
 
-The included topology contains provider, route-reflector, and customer-edge routers. Router endpoints are configured in `nodes.txt`, while `topology.txt` describes their links.
+The included topology contains provider, route-reflector, and customer-edge routers. Router endpoints are configured as JSON in `nodes.txt`, while `topology.txt` describes their links.
 
 ## Setup
 

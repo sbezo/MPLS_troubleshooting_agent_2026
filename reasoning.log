@@ -42,3 +42,7 @@
 2026-07-17T20:36:39+02:00 PROPOSED FIX: On PE1 GigabitEthernet0/0/0/0 remove the injected ipv4 mtu 500 override so the interface returns to the 1500-byte IP MTU used by P0. Do not use OSPF MTU-ignore as the primary correction because it leaves the data-plane mismatch.
 2026-07-17T20:36:39+02:00 VALIDATION PLAN: Confirm IP MTU 1500, PE1-P0 OSPF FULL, reciprocal loopback routes restored, PE1-RR VPNv4 BGP established, remote CUST-A /32 routes installed, and the original CE1 sourced ping succeeds.
 2026-07-17T20:36:39+02:00 ASSISTANT: Diagnosis complete; no configuration was changed.
+2026-07-18T07:15:23+02:00 USER: Requested a simpler nodes.txt format and corresponding load_routers implementation, assuming valid input.
+2026-07-18T07:15:23+02:00 ASSISTANT: Replaced the custom JSON-like inventory and regex parser with valid JSON and json.load; retained case-insensitive router lookup and verified all seven routers load with expected values.
+2026-07-18T07:28:00+02:00 USER: Preferred the explicit router-loading loop because the comprehension was less readable.
+2026-07-18T07:28:00+02:00 ASSISTANT: Replaced the comprehension and keyword unpacking with explicit host and port assignments, preserving the user's nodes.json rename and diagnostic output.
