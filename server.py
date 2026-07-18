@@ -74,9 +74,9 @@ def validate_show_command(command: str) -> str:
     normalized = command.strip()
     if not normalized:
         raise ValueError("Command cannot be empty")
-    if not normalized.isprintable() or ";" in normalized:
-        raise ValueError("Command must be a single CLI line without command separators")
-    if not re.match(r"^show(?:\s|$)", normalized, flags=re.IGNORECASE):
+    if not normalized.isprintable():
+        raise ValueError("Command must not contain non-printable characters")
+    if not re.match(r"^show(?:\s)", normalized, flags=re.IGNORECASE):
         raise ValueError("Only commands beginning with 'show' are allowed")
     return normalized
 
@@ -86,8 +86,8 @@ def validate_ping_command(command: str) -> str:
     normalized = command.strip()
     if not normalized:
         raise ValueError("Ping command cannot be empty")
-    if not normalized.isprintable() or ";" in normalized:
-        raise ValueError("Command must be a single CLI line without command separators")
+    if not normalized.isprintable():
+        raise ValueError("Command must not contain non-printable characters")
     if not re.match(r"^ping\s+\S", normalized, flags=re.IGNORECASE):
         raise ValueError("Only complete commands beginning with 'ping' are allowed")
     return normalized
@@ -96,18 +96,16 @@ def validate_ping_command(command: str) -> str:
 def run_cisco_command(router_name: str, command: str) -> str:
     router = get_router(router_name)
     username, password = get_credentials()
+    enable_secret = os.getenv("CISCO_ENABLE")
     device: dict[str, object] = {
-        "device_type": os.getenv("NETMIKO_DEVICE_TYPE", "cisco_ios"),
+        "device_type": "cisco_ios",
         "host": router.host,
         "port": router.port,
         "username": username,
         "password": password,
-        "conn_timeout": int(os.getenv("CISCO_CONNECT_TIMEOUT", "10")),
+        "secret": enable_secret,
+        "conn_timeout": 10,
     }
-
-    enable_secret = os.getenv("CISCO_ENABLE")
-    if enable_secret:
-        device["secret"] = enable_secret
 
     try:
         with ConnectHandler(**device) as connection:
@@ -115,7 +113,6 @@ def run_cisco_command(router_name: str, command: str) -> str:
                 connection.enable()
             output = connection.send_command(
                 command,
-                read_timeout=int(os.getenv("CISCO_READ_TIMEOUT", "30")),
             )
     except Exception as exc:
         raise RuntimeError(
@@ -131,15 +128,6 @@ def run_cisco_command(router_name: str, command: str) -> str:
 )
 def list_cisco_routers() -> list[str]:
     return [router.name for router in load_routers().values()]
-
-
-@mcp.tool(
-    name="cisco_show_version",
-    title="Cisco Show Version",
-    description="Run the read-only 'show version' command on a named lab router.",
-)
-def cisco_show_version(router: str) -> str:
-    return run_cisco_command(router, "show version")
 
 
 @mcp.tool(
