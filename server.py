@@ -50,29 +50,9 @@ def load_routers() -> dict[str, Router]:
     return routers
 
 
-def _legacy_env_values() -> dict[str, str]:
-    """Read the original ``key: value`` .env syntax used by this lab."""
-    env_path = BASE_DIR / ".env"
-    try:
-        lines = env_path.read_text(encoding="utf-8").splitlines()
-    except OSError:
-        return {}
-
-    values: dict[str, str] = {}
-    for line in lines:
-        stripped = line.strip()
-        if not stripped or stripped.startswith("#"):
-            continue
-        match = re.fullmatch(r"([A-Za-z_][A-Za-z0-9_]*)\s*:\s*(.+)", stripped)
-        if match:
-            values[match.group(1).casefold()] = match.group(2).strip().strip("'\"")
-    return values
-
-
 def get_credentials() -> tuple[str, str]:
-    legacy = _legacy_env_values()
-    username = os.getenv("CISCO_USERNAME") or legacy.get("username")
-    password = os.getenv("CISCO_PASSWORD") or legacy.get("password")
+    username = os.getenv("CISCO_USERNAME")
+    password = os.getenv("CISCO_PASSWORD")
     if not username or not password:
         raise RuntimeError(
             "Missing credentials. Set CISCO_USERNAME and CISCO_PASSWORD in .env."
