@@ -18,8 +18,9 @@ load_dotenv(env_path)
 mcp = FastMCP(
     name="cisco-cli-lab",
     instructions=(
-        "Read-only access to the Cisco lab. List routers first, then run "
-        "single-line Cisco CLI commands beginning with 'show' or 'ping'"
+        "Guarded, non-configuring access to the Cisco lab. List routers first, "
+        "then run printable, single-line Cisco CLI commands beginning with "
+        "'show' or 'ping'"
     ),
     host=os.getenv("MCP_HOST", "127.0.0.1"),
     port=int(os.getenv("MCP_PORT", "8000")),
@@ -70,7 +71,7 @@ def get_router(name: str) -> Router:
 
 
 def validate_show_command(command: str) -> str:
-    """Return a normalized command only when it is a safe, single-line show command."""
+    """Return a normalized, printable, single-line show command."""
     normalized = command.strip()
     if not normalized:
         raise ValueError("Command cannot be empty")
@@ -134,7 +135,7 @@ def list_cisco_routers() -> list[str]:
     name="cisco_show_command",
     title="Run Cisco Show Command",
     description=(
-        "Run one read-only, single-line Cisco CLI command beginning with 'show' "
+        "Run one guarded, single-line Cisco CLI command beginning with 'show' "
         "on a named lab router. Examples: 'show clock', 'show interfaces brief', "
         "or 'show route'."
     ),
