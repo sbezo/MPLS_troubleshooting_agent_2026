@@ -46,3 +46,7 @@
 2026-07-18T07:15:23+02:00 ASSISTANT: Replaced the custom JSON-like inventory and regex parser with valid JSON and json.load; retained case-insensitive router lookup and verified all seven routers load with expected values.
 2026-07-18T07:28:00+02:00 USER: Preferred the explicit router-loading loop because the comprehension was less readable.
 2026-07-18T07:28:00+02:00 ASSISTANT: Replaced the comprehension and keyword unpacking with explicit host and port assignments, preserving the user's nodes.json rename and diagnostic output.
+2026-07-18T16:02:51+02:00 USER: Requested a minimal client supporting only --list_routers or --router with --command, and asked whether async could be simplified.
+2026-07-18T16:02:51+02:00 ASSISTANT: Added client_simple.py using the installed official MCP SDK; confined async setup to one function and removed discovery, ping, URL, timeout, and step-reporting features. Argument validation and live router listing passed. Command-mode live verification could not complete because the local MCP endpoint stopped accepting connections.
+2026-07-18T16:10:00+02:00 USER: Requested further simplification to exactly two mandatory arguments: router and command.
+2026-07-18T16:10:00+02:00 ASSISTANT: Removed list mode, branching, custom validation, and list result formatting from client_simple.py; --router and --command are now both required.
