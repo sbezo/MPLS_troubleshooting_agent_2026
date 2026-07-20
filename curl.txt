@@ -1,0 +1,59 @@
+# Manual testing of the MCP protocol using curl
+
+MCP_URL="http://127.0.0.1:8000/mcp"
+MCP_HEADERS="$(mktemp)"
+
+# 1. Initialize the MCP session
+curl -D "$MCP_HEADERS" -X POST "$MCP_URL" \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json, text/event-stream' \
+  --data '{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "initialize",
+    "params": {
+      "protocolVersion": "2025-06-18",
+      "capabilities": {},
+      "clientInfo": {
+        "name": "curl-client",
+        "version": "1.0"
+      }
+    }
+  }'
+
+MCP_SESSION_ID="$(
+  awk 'tolower($1) == "mcp-session-id:" {print $2}' "$MCP_HEADERS" |
+  tr -d '\r'
+)"
+
+# session ID potom bude:
+echo $MCP_SESSION_ID
+
+
+# 2. Confirm initialization
+curl -sS -X POST "$MCP_URL" \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json, text/event-stream' \
+  -H "Mcp-Session-Id: $MCP_SESSION_ID" \
+  -H 'MCP-Protocol-Version: 2025-06-18' \
+  --data '{
+    "jsonrpc": "2.0",
+    "method": "notifications/initialized"
+  }'
+
+# 3. List all tools and their input schemas
+curl -sS -X POST "$MCP_URL" \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json, text/event-stream' \
+  -H "Mcp-Session-Id: $MCP_SESSION_ID" \
+  -H 'MCP-Protocol-Version: 2025-06-18' \
+  --data '{
+    "jsonrpc": "2.0",
+    "id": 2,
+    "method": "tools/list",
+    "params": {}
+  }' |
+  sed -n 's/^data: //p' |
+  jq .
+
+rm -f "$MCP_HEADERS"
